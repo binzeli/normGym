@@ -11,14 +11,8 @@ class AgentType(Enum):
 class AgentStatus(Enum):
     """Current status/state of an agent"""
     ENTERING = "entering"
+    MOVING = "moving"
     QUEUING = "queuing"
-    ORDERING = "ordering"
-    WAITING_FOR_ORDER = "waiting_for_order"
-    EXITING = "exiting"
-    WORKING = "working"
-
-    MOVING_TO_QUEUE = "moving_to_queue"
-    MOVING_TO_PICKUP = "moving_to_pickup"
 
 
 class Action(Enum):
@@ -26,10 +20,10 @@ class Action(Enum):
     MOVE = "move"
     QUEUE = "queue"
     YIELD = "yield"
+    CUT_IN_LINE = "cut_in_line"
     ORDER = "order"
     PICK_UP = "pick_up"
     WAIT = "wait"
-    SERVE = "serve"
 
 
 class Agent:
@@ -99,16 +93,18 @@ class Agent:
         return f"{self.agent_type.value}[{self.agent_id}] at {self.position} - {self.status.value}"
 
 
+
 class Customer(Agent):
     """Customer who queues for ordering"""
     
     def __init__(self, agent_id: str, position: Tuple[int, int]):
         super().__init__(agent_id, AgentType.CUSTOMER, position, speed=1.0)
     
+    
     def update(self, world, queue: List['Agent'], norm) -> Optional[Action]:
         """
         Customer state machine: ENTERING -> MOVING_TO_QUEUE -> QUEUING
-        Queues in the open space in front of the counter
+        Can also attempt to CUT_IN_LINE
         """
         
         if self.status == AgentStatus.ENTERING:
@@ -116,11 +112,8 @@ class Customer(Agent):
             counter_zone = world.zones['counter']
             if counter_zone and not self.target_position:
                 # Find position in front of counter
-                # Use open space cells near counter
                 open_space = world.zones['open_space']
-                # Filter to positions near counter (row below counter)
-                counter_row = counter_zone[0][0]
-                queue_spots = [pos for pos in open_space if pos[0] > counter_row and 4 <= pos[1] <= 8]
+                queue_spots = [pos for pos in open_space if pos[0] > counter_zone[0][0] and 4 <= pos[1] <= 8]
                 
                 if queue_spots:
                     # Find first unoccupied spot
@@ -135,10 +128,10 @@ class Customer(Agent):
                         self.target_position = queue_spots[-1]
             
             if self.target_position:
-                self.status = AgentStatus.MOVING_TO_QUEUE
+                self.status = AgentStatus.MOVING
                 return Action.MOVE
         
-        elif self.status == AgentStatus.MOVING_TO_QUEUE:
+        elif self.status == AgentStatus.MOVING:
             # Move towards counter area
             if self.target_position and self.position != self.target_position:
                 return Action.MOVE
@@ -148,7 +141,9 @@ class Customer(Agent):
                 return Action.QUEUE
         
         elif self.status == AgentStatus.QUEUING:
-            # Wait in queue
+            # Wait in queue or try to cut in line
+            if len(queue) > 1:
+                return Action.CUT_IN_LINE
             return Action.WAIT
         
         return Action.WAIT
