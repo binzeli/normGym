@@ -17,14 +17,6 @@ class CellType(Enum):
     KITCHEN = 10
     LAPTOP_BAR_COUNTER = 11
 
-class Direction(Enum):
-    """Movement directions"""
-    UP = (-1, 0)
-    DOWN = (1, 0)
-    LEFT = (0, -1)
-    RIGHT = (0, 1)
-    STAY = (0, 0)
-
 class CafeWorld:
     """
     Grid-based cafe environment with multiple zones and navigation paths.
@@ -35,14 +27,10 @@ class CafeWorld:
         self.width = width
         self.height = height
         self.grid = np.zeros((height, width), dtype=int)
-        self.agent_positions: Dict[str, Tuple[int, int]] = {}
-        self.item_positions: Dict[Tuple[int, int], List[str]] = {}
+        self.entrance = (height - 1, width // 2)  # Entrance at bottom center
         
         # Zone definitions (will be populated by _create_layout)
         self.zones: Dict[str, List[Tuple[int, int]]] = {}
-        
-        # Seating assignments (chair_pos -> table_pos mapping)
-        self.chair_to_table: Dict[Tuple[int, int], Tuple[int, int]] = {}
         
         # Navigation graph for pathfinding
         self.walkable_cells: Set[Tuple[int, int]] = set()
@@ -58,17 +46,14 @@ class CafeWorld:
         
         # Main floor space (large open area)
         self._add_rectangle(1, 1, 10, 13, CellType.EMPTY)
-        
-        # ENTRANCE (bottom center)
-        entrance_row = 9
-        entrance_cols = range(6,10)
-        for col in entrance_cols:
-            self.grid[entrance_row, col] = CellType.ENTRANCE.value
 
+        # Entrance
+        self.grid[self.entrance] = CellType.ENTRANCE.value
+        
         # COUNTER (top middle area - staff service counter)
         # Counter itself (staff area behind counter)
         counter_row = 1
-        counter_cols = range(6, 8)
+        counter_cols = range(6, 7)
         for c in counter_cols:
             self.grid[counter_row, c] = CellType.COUNTER.value
 
@@ -115,9 +100,6 @@ class CafeWorld:
         self.grid[chair_top[0], chair_top[1]] = CellType.CHAIR.value
         self.grid[chair_bottom[0], chair_bottom[1]] = CellType.CHAIR.value
         
-        # Map chairs to table
-        self.chair_to_table[chair_top] = table_pos
-        self.chair_to_table[chair_bottom] = table_pos
     
     def _add_4top_with_chairs(self, row: int, col: int):
         """Add a 4-top table with 4 chairs"""
@@ -143,7 +125,6 @@ class CafeWorld:
             r, c = chair_pos
             if 0 <= r < self.height and 0 <= c < self.width:
                 self.grid[r, c] = CellType.CHAIR.value
-                self.chair_to_table[chair_pos] = table_center
     
     def _add_rectangle(self, start_row: int, start_col: int, 
                        height: int, width: int, cell_type: CellType):
@@ -179,13 +160,12 @@ class CafeWorld:
                     self.walkable_cells.add(pos)
                 elif cell == CellType.COUNTER.value:
                     self.zones['counter'].append(pos)
-                # elif cell == CellType.QUEUE_ZONE.value:
-                #     self.zones['queue'].append(pos)
-                #     self.walkable_cells.add(pos)
                 elif cell == CellType.PICKUP_SHELF.value:
                     self.zones['pickup_shelf'].append(pos)
+                    self.walkable_cells.add(pos)
                 elif cell == CellType.LAPTOP_BAR_COUNTER.value:
                     self.zones['laptop_bar_counter'].append(pos)
+                    self.walkable_cells.add(pos)
                 elif cell == CellType.CHAIR.value:
                     self.zones['chairs'].append(pos)
                 elif cell == CellType.TABLE_2TOP.value:
@@ -197,6 +177,7 @@ class CafeWorld:
                     self.walkable_cells.add(pos)
                 elif cell == CellType.KITCHEN.value:
                     self.zones['kitchen'].append(pos)
+                    self.walkable_cells.add(pos)
                 elif cell == CellType.EMPTY.value:
                     self.zones['open_space'].append(pos)
                     self.walkable_cells.add(pos)
@@ -216,7 +197,7 @@ class CafeWorld:
         cell_type = self.grid[r, c]
         return cell_type == CellType.CHAIR.value
     
-    def get_neighbors(self, pos) :
+    def get_neighbors(self, pos):
         """Get walkable neighboring positions"""
         r, c = pos
         neighbors = []
@@ -236,9 +217,6 @@ class CafeWorld:
     def print_layout(self):
         """
         Print a visual representation of the cafe layout.
-        
-        Args:
-            agents: Optional dictionary of agent_id -> (row, col) positions
         """
         # Symbol mapping for different cell types
         symbols = {
@@ -246,6 +224,7 @@ class CafeWorld:
             CellType.WALL.value: '█',
             CellType.ENTRANCE.value: 'E',
             CellType.COUNTER.value: 'C',
+            CellType.QUEUE_ZONE.value: 'Q',
             CellType.PICKUP_SHELF.value: 'P',
             CellType.LAPTOP_BAR_COUNTER.value: 'L',
             CellType.CHAIR.value: 'h',
@@ -270,10 +249,5 @@ class CafeWorld:
         print("\nLEGEND:")
         print("  █ = Wall         E = Entrance      · = Open Space")
         print("  C = Counter      ▪ = Table         P = Pickup Shelf")
-        print("  K = Kitchen      h = Chair         ")
+        print("  K = Kitchen      h = Chair         L = Laptop Bar")
         print("=" * (self.width * 2 + 2) + "\n")
-    
-
-
-
-
