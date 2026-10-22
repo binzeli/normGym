@@ -1,13 +1,37 @@
 # NormGym: Evaluating Normative Competence through Social Interaction
 
-Binze Li, Zihuan Zhang, Seokhyun Baek, Gillian K. Hadfield\*, Tianmin Shu\*
-(\* equal advising) · Johns Hopkins University, Vector Institute
+<p align="center">
+  Binze Li<sup>1</sup> &nbsp;
+  Zihuan Zhang<sup>1</sup> &nbsp;
+  Seokhyun Baek<sup>1</sup> &nbsp;
+  Gillian K. Hadfield<sup>*1,2,3</sup> &nbsp;
+  Tianmin Shu<sup>*1</sup>
+  <br><br>
+  <sup>1</sup>Department of Computer Science, Johns Hopkins University<br>
+  <sup>2</sup>School of Government and Policy, Johns Hopkins University<br>
+  <sup>3</sup>Vector Institute for Artificial Intelligence
+  <br><br>
+  <em>*Equal advising</em>
+</p>
 
-**[Project page](https://binzeli.github.io/normgym-page/)** · Paper (coming soon)
+<p align="center">
+  <a href="https://binzeli.github.io/normgym-page/"><b>Project page</b></a> · Paper (coming soon)
+</p>
 
 ![A newcomer in the cafe learns the hidden norm from its own and its peers' violations](demos/teaser_trace.png)
 
+*A newcomer, Jude, enters a café whose community follows a norm Jude is never
+told: sit only in the bottom-right seating area. Jude's own violations and a
+peer's violation gradually point it to the right area, and by the end of
+interaction it states the norm it has learned.*
+
 ![Evaluation protocol: interactive learning, then evaluation on seen and unseen layouts](demos/teaser_protocol.png)
+
+*(a) Evaluation protocol. During interactive learning the agent acts, observes
+its own violations, its peers' violations and others' compliant behavior, and
+updates its belief about the norm. It is then evaluated, with no further
+belief updates, on 3 full episodes in the seen layout and 3 in an unseen one.
+(b) Example environment layouts.*
 
 NormGym is a benchmark for **learning hidden social norms from interaction**.
 An agent (an LLM/VLM, an RL policy, or a human) enters a grid world such as a
