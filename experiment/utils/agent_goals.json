@@ -1,0 +1,821 @@
+{
+ "_comment": "Natural-language goal descriptions shown to LLM / human agents, one entry per norm (mirrors norm_descriptions.json). Each goal lists its step, a free_choice flag, and a description. Placeholders <target_goal_1> / <target_goal_2> are replaced with the agent's real target positions at runtime. When free_choice is true the goal has no position placeholder — the agent must choose a norm-compliant chair/door itself, so nothing is substituted. Norm ids match norm_descriptions.json; norm_000 (straight_line) is the practice-only tutorial norm, which is playable but has no norm_descriptions.json entry because it is not an experiment norm.",
+ "agent_goals": [
+  {
+   "norm_id": "norm_000",
+   "name": "straight_line",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Walk to the counter at <target_goal_1> to place your food order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave the cafe through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_001",
+   "name": "zigzag_right2_line",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Walk to the counter at <target_goal_1> to place your food order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave the cafe through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_002",
+   "name": "zigzag_left1_line",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Walk to the counter at <target_goal_1> to place your food order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave the cafe through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_003",
+   "name": "bend_right1_line",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Walk to the counter at <target_goal_1> to place your food order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave the cafe through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_004",
+   "name": "bend_left2_line",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Walk to the counter at <target_goal_1> to place your food order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave the cafe through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_005",
+   "name": "edge_left_line",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Walk to the counter at <target_goal_1> to place your food order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave the cafe through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_006",
+   "name": "zigzag_right1_line",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Walk to the counter at <target_goal_1> to place your food order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave the cafe through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_007",
+   "name": "zigzag_left2_line",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Walk to the counter at <target_goal_1> to place your food order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave the cafe through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_008",
+   "name": "bend_left1_line",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Walk to the counter at <target_goal_1> to place your food order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave the cafe through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_009",
+   "name": "bend_right2_line",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Walk to the counter at <target_goal_1> to place your food order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave the cafe through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_010",
+   "name": "edge_right_line",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Walk to the counter at <target_goal_1> to place your food order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave the cafe through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_011",
+   "name": "square_right_line",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Walk to the counter at <target_goal_1> to place your food order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave the cafe through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_012",
+   "name": "square_left_line",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Walk to the counter at <target_goal_1> to place your food order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave the cafe through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_013",
+   "name": "staircase_right_line",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Walk to the counter at <target_goal_1> to place your food order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave the cafe through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_014",
+   "name": "staircase_left_line",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Walk to the counter at <target_goal_1> to place your food order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave the cafe through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_015",
+   "name": "lshape_right_line",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Walk to the counter at <target_goal_1> to place your food order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave the cafe through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_016",
+   "name": "lshape_left_line",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Walk to the counter at <target_goal_1> to place your food order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave the cafe through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_017",
+   "name": "movement_clockwise_move",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Travel to <target_goal_1> and get ready to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_018",
+   "name": "movement_counterclockwise_move",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Travel to <target_goal_1> and get ready to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_019",
+   "name": "movement_no_odd_turn",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Travel to <target_goal_1> and get ready to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_020",
+   "name": "movement_no_even_turn",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Travel to <target_goal_1> and get ready to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_021",
+   "name": "movement_no_turn_mod3_0",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Travel to <target_goal_1> and get ready to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_022",
+   "name": "movement_no_turn_mod3_1",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Travel to <target_goal_1> and get ready to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_023",
+   "name": "movement_no_turn_mod3_2",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Travel to <target_goal_1> and get ready to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_024",
+   "name": "movement_move1_wait1",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Travel to <target_goal_1> and get ready to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_025",
+   "name": "movement_move2_wait1",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Travel to <target_goal_1> and get ready to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_026",
+   "name": "movement_move3_wait1",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Travel to <target_goal_1> and get ready to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_027",
+   "name": "xcell_must_visit",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Travel to <target_goal_1> and get ready to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_028",
+   "name": "xcell_forbidden",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Travel to <target_goal_1> and get ready to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_029",
+   "name": "occupation_region_capacity_1",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": true,
+     "description": "Goal 1: Go and stand anywhere inside the yellow footprint zone to get your order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_030",
+   "name": "occupation_region_capacity_2",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": true,
+     "description": "Goal 1: Go and stand anywhere inside the yellow footprint zone to get your order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_031",
+   "name": "occupation_region_single_class_only",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": true,
+     "description": "Goal 1: Go and stand anywhere inside the yellow footprint zone to get your order."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: Once you are finished, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_032",
+   "name": "occupation_door_all_exit_A",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Sit down at <target_goal_1> and enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": true,
+     "description": "Goal 2: After you have been seated, leave through a door."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_033",
+   "name": "occupation_door_A_forbidden",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Sit down at <target_goal_1> and enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": true,
+     "description": "Goal 2: After you have been seated, leave through a door."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_034",
+   "name": "occupation_door_class_specific",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Sit down at <target_goal_1> and enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": true,
+     "description": "Goal 2: After you have been seated, leave through a door."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_035",
+   "name": "occupation_door_all_exit_B",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Sit down at <target_goal_1> and enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": true,
+     "description": "Goal 2: After you have been seated, leave through a door."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_036",
+   "name": "occupation_door_all_exit_C",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Sit down at <target_goal_1> and enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": true,
+     "description": "Goal 2: After you have been seated, leave through a door."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_037",
+   "name": "occupation_door_B_forbidden",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Sit down at <target_goal_1> and enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": true,
+     "description": "Goal 2: After you have been seated, leave through a door."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_038",
+   "name": "occupation_door_C_forbidden",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Sit down at <target_goal_1> and enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": true,
+     "description": "Goal 2: After you have been seated, leave through a door."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_039",
+   "name": "occupation_seat_class_specific",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": true,
+     "description": "Goal 1: Find a chair and sit down to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: After you have been seated, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_040",
+   "name": "occupation_seat_bottom_left_only",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": true,
+     "description": "Goal 1: Find a chair and sit down to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: After you have been seated, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_041",
+   "name": "occupation_seat_no_bottom_left",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": true,
+     "description": "Goal 1: Find a chair and sit down to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: After you have been seated, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_042",
+   "name": "occupation_seat_in_order",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": true,
+     "description": "Goal 1: Find a seat and sit down to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: After you have been seated, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_043",
+   "name": "occupation_seat_top_left_only",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": true,
+     "description": "Goal 1: Find a chair and sit down to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: After you have been seated, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_044",
+   "name": "occupation_seat_bottom_right_only",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": true,
+     "description": "Goal 1: Find a chair and sit down to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: After you have been seated, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_045",
+   "name": "occupation_seat_no_bottom_right",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": true,
+     "description": "Goal 1: Find a chair and sit down to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: After you have been seated, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_046",
+   "name": "occupation_door_class_specific_BCA",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Sit down at <target_goal_1> and enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": true,
+     "description": "Goal 2: After you have been seated, leave through a door."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_047",
+   "name": "occupation_door_class_specific_CAB",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": false,
+     "description": "Goal 1: Sit down at <target_goal_1> and enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": true,
+     "description": "Goal 2: After you have been seated, leave through a door."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_048",
+   "name": "occupation_seat_class_specific_rot1",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": true,
+     "description": "Goal 1: Find a chair and sit down to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: After you have been seated, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_049",
+   "name": "occupation_seat_class_specific_rot2",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": true,
+     "description": "Goal 1: Find a chair and sit down to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: After you have been seated, leave through the door at <target_goal_2>."
+    }
+   ]
+  },
+  {
+   "norm_id": "norm_050",
+   "name": "occupation_seat_in_order_right",
+   "goals": [
+    {
+     "step": 1,
+     "free_choice": true,
+     "description": "Goal 1: Find a seat and sit down to enjoy your food."
+    },
+    {
+     "step": 2,
+     "free_choice": false,
+     "description": "Goal 2: After you have been seated, leave through the door at <target_goal_2>."
+    }
+   ]
+  }
+ ]
+}

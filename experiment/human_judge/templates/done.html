@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rule-guess rating study — Thank you</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% from '_macros.html' import progress %}
+<div class="page">
+  {{ progress('done', 0, n_items) }}
+
+  <h1>Thank you! 🎉</h1>
+  <p class="subtitle">You have rated all {{ n_items }} items and your responses have been recorded.</p>
+  <div class="card accent" style="text-align:center">
+    <p style="margin:0 0 10px">Your completion code is</p>
+    <p class="completion-code">{{ completion_code }}</p>
+  </div>
+</div>
+</body>
+</html>

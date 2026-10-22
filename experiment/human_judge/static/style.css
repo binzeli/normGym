@@ -1,0 +1,129 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  background: #f5f4f0;
+  color: #2b2b2b;
+  min-height: 100vh;
+  line-height: 1.55;
+}
+
+.page { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+.page h1 { font-size: 1.9rem; font-weight: 700; margin-bottom: 6px; color: #1a1a1a; }
+.page h1 .of { font-size: 1.1rem; font-weight: 500; color: #888; }
+.page .subtitle { color: #777; font-size: 0.95rem; margin-bottom: 24px; }
+.page h2 { font-size: 1.15rem; margin: 22px 0 10px; color: #2b2b2b; }
+.page h3 { font-size: 1rem; margin: 20px 0 8px; color: #2c5d86; }
+.page p { margin-bottom: 12px; }
+.page ul, .page ol { margin: 0 0 14px 22px; }
+.page li { margin-bottom: 6px; }
+
+.card {
+  background: #fff; border: 1px solid #e2e0da; border-radius: 10px;
+  padding: 22px 26px; margin-bottom: 18px;
+}
+.card.accent { border-left: 4px solid #3a6ea5; }
+.card.error-card { border-left: 4px solid #c0392b; color: #a5302b; font-weight: 600; }
+.card-label {
+  text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.76rem;
+  font-weight: 700; color: #3a6ea5; margin-bottom: 8px;
+}
+
+/* The two texts being compared */
+.rule-card { background: #eef4f9; border-color: #c5d8e8; }
+.rule-card .card-label { color: #2c5d86; }
+.rule-text { font-size: 0.97rem; line-height: 1.6; margin: 0; white-space: pre-line; }
+.guess-card { background: #fbf6e3; border-color: #e6d9a8; }
+.guess-card .card-label { color: #8a6d1a; }
+.guess-text { font-size: 1.08rem; line-height: 1.6; margin: 0; font-weight: 500; white-space: pre-line; }
+
+/* Questions */
+.q-card { border-left: 4px solid #3a6ea5; }
+.q-title { font-size: 1.02rem; font-weight: 600; margin-bottom: 14px; }
+.q-num {
+  display: inline-block; background: #3a6ea5; color: #fff; font-size: 0.72rem;
+  font-weight: 700; padding: 2px 8px; border-radius: 12px; margin-right: 8px; vertical-align: middle;
+}
+.q-card.locked .scale { opacity: .55; pointer-events: none; }
+.q-card.locked .scale-pt input:checked + .scale-num { background: #6aa57f; border-color: #6aa57f; }
+.hidden { display: none; }
+
+.scale { display: flex; gap: 6px; align-items: flex-start; flex-wrap: wrap; }
+.scale-pt {
+  flex: 1 1 0; min-width: 62px; display: flex; flex-direction: column; align-items: center;
+  gap: 6px; cursor: pointer; text-align: center;
+}
+.scale-pt input { position: absolute; opacity: 0; width: 0; height: 0; }
+.scale-num {
+  width: 44px; height: 44px; border-radius: 50%; border: 2px solid #c9c6bd; background: #fff;
+  display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.05rem;
+  color: #444; transition: background .12s, border-color .12s, color .12s;
+}
+.scale-pt:hover .scale-num { border-color: #3a6ea5; }
+.scale-pt input:checked + .scale-num { background: #3a6ea5; border-color: #3a6ea5; color: #fff; }
+.scale-pt input:focus-visible + .scale-num { outline: 3px solid #a9c4e0; }
+.scale-anchor { font-size: 0.76rem; color: #666; line-height: 1.3; max-width: 120px; }
+.scale-demo { margin: 6px 0 12px; padding: 12px 14px; background: #fafaf7; border: 1px dashed #d6d3cb; border-radius: 8px; }
+.scale-demo .scale-pt { cursor: default; }
+
+/* Judge reveal */
+.judge-card { border-left-color: #8a6d1a; }
+.judge-card .card-label { color: #8a6d1a; }
+.judge-row { display: flex; gap: 18px; align-items: center; }
+.judge-badge {
+  flex: 0 0 auto; display: flex; align-items: baseline; gap: 4px;
+  background: #fbf6e3; border: 2px solid #d4a72c; border-radius: 10px; padding: 8px 16px;
+}
+.judge-val { font-size: 2rem; font-weight: 800; color: #8a6d1a; line-height: 1; }
+.judge-of { font-size: 0.95rem; color: #8a6d1a; }
+.judge-reason { font-size: 0.97rem; color: #444; }
+.judge-scale-hint { margin-top: 10px; font-size: 0.8rem; color: #8a6d1a; }
+
+/* Progress strip */
+.progress { display: flex; gap: 6px; margin-bottom: 26px; font-size: 0.78rem; color: #999; flex-wrap: wrap; align-items: center; }
+.progress .step { display: flex; align-items: center; gap: 6px; }
+.progress .step .dot { width: 9px; height: 9px; border-radius: 50%; background: #d6d3cb; }
+.progress .step.compact { gap: 3px; }
+.progress .step.active { color: #3a6ea5; font-weight: 600; }
+.progress .step.active .dot { background: #3a6ea5; }
+.progress .step.done .dot { background: #6aa57f; }
+.progress .arrow { color: #ccc; }
+
+/* Buttons / fields */
+.btn {
+  display: inline-block; padding: 11px 26px; border-radius: 7px; border: 1px solid #c9c6bd;
+  background: #fff; cursor: pointer; font-size: 0.95rem; font-weight: 500; color: #333;
+  text-decoration: none; transition: background .12s, border-color .12s, opacity .12s;
+}
+.btn:hover { background: #f0eee9; }
+.btn:disabled, .btn.disabled { opacity: .4; cursor: not-allowed; pointer-events: none; }
+.btn-primary { background: #3a6ea5; border-color: #3a6ea5; color: #fff; }
+.btn-primary:hover { background: #335f8f; }
+.btn-row { display: flex; gap: 12px; align-items: center; margin-top: 22px; flex-wrap: wrap; }
+
+.field { margin-bottom: 16px; }
+.field label { display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 5px; color: #444; }
+.field input[type=text] {
+  width: 100%; max-width: 320px; padding: 9px 12px; border: 1px solid #c9c6bd; border-radius: 6px;
+  font-size: 0.95rem; font-family: inherit; background: #fff;
+}
+.field textarea {
+  width: 100%; padding: 9px 12px; border: 1px solid #c9c6bd; border-radius: 6px;
+  font-size: 0.95rem; font-family: inherit; resize: vertical;
+}
+.field .checkrow { display: flex; align-items: flex-start; gap: 8px; font-weight: 400; }
+.field .checkrow input { margin-top: 4px; }
+.hint { font-size: 0.82rem; color: #999; }
+
+.completion-code {
+  font-family: 'Courier New', ui-monospace, monospace; font-size: 2rem; font-weight: 700;
+  letter-spacing: 3px; color: #2c5d86; margin: 0; user-select: all; word-break: break-all;
+}
+
+@media (max-width: 600px) {
+  .page { padding: 24px 14px 60px; }
+  .card { padding: 16px 16px; }
+  .scale-num { width: 38px; height: 38px; font-size: 0.95rem; }
+  .scale-anchor { font-size: 0.7rem; }
+  .judge-row { flex-direction: column; align-items: flex-start; }
+}

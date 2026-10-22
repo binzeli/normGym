@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>normGym Study — Scenario {{ block + 1 }} · A new place</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% from '_macros.html' import progress %}
+<div class="page wide">
+  {{ progress('main', block, total_blocks, episode) }}
+
+  <h1>A new place: the {{ world_name }}</h1>
+  <p class="subtitle">Test 2 happens somewhere you have not played before.
+  Have a look around first.</p>
+
+  <div class="card accent">
+    <h2 style="margin-top:0">The place changed — the norm did not</h2>
+    <p style="margin:0">This round happens in a place you have not played in
+    before: a different layout, different furniture.
+    <strong style="color:#c0392b">The social norm you learned still applies
+    here</strong>, and your task is the same — reach your goal, then leave
+    through a door.</p>
+  </div>
+
+  <div class="card">
+    {# Annotated scene, built exactly like the tutorial's café layout page: the
+       picture, arrows and labels live in one SVG with a viewBox so they scale
+       together and stay aligned at any width. The picture is this world's own
+       board with no characters on it, and every arrow endpoint is computed from
+       the cell it points at (see scene_annotation in app.py) — nothing here is
+       hand-placed, so it is right for whichever world the participant drew. #}
+    <div class="scene-annotated">
+      <svg viewBox="0 0 {{ scene.canvas_w }} {{ scene.canvas_h }}" class="scene-svg"
+           xmlns="http://www.w3.org/2000/svg"
+           role="img" aria-label="Annotated {{ world_name }} scene">
+        <defs>
+          <marker id="arrowhead-nm" markerWidth="16" markerHeight="16"
+                  refX="12" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+            <path d="M0,0 L13,4.5 L0,9 Z" fill="#3a6ea5"
+                  stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+
+        <image href="{{ url_for('scene_png', world_type=world_type) }}"
+               x="{{ scene.img_x }}" y="{{ scene.img_y }}"
+               width="{{ scene.img_w }}" height="{{ scene.img_h }}"/>
+
+        {# Connector arrows: white halo underneath so the line stays visible
+           over the floor, coloured line with the arrowhead on top. #}
+        <g fill="none" stroke-linecap="round">
+          <g stroke="#fff" stroke-width="9">
+            {% for it in scene['items'] %}
+            <line x1="{{ it.x1 }}" y1="{{ it.y1 }}" x2="{{ it.x2 }}" y2="{{ it.y2 }}"/>
+            {% endfor %}
+          </g>
+          <g stroke="#3a6ea5" stroke-width="3.5" marker-end="url(#arrowhead-nm)">
+            {% for it in scene['items'] %}
+            <line x1="{{ it.x1 }}" y1="{{ it.y1 }}" x2="{{ it.x2 }}" y2="{{ it.y2 }}"/>
+            {% endfor %}
+          </g>
+        </g>
+
+        {# Callout labels (HTML inside SVG so the text wraps). Each box's centre
+           y matches the y its arrow starts at. #}
+        {% for it in scene['items'] %}
+        <foreignObject x="{{ it.label_x }}" y="{{ it.label_y }}"
+                       width="{{ it.label_w }}" height="{{ it.label_h }}">
+          <div xmlns="http://www.w3.org/1999/xhtml"
+               class="callout{{ ' callout-right' if it.side == 'right' else '' }}">
+            <div><strong>{{ it.title }}.</strong> {{ it.text|safe }}</div>
+          </div>
+        </foreignObject>
+        {% endfor %}
+      </svg>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <a href="{{ next_url }}" class="btn btn-primary">Start the round →</a>
+  </div>
+</div>
+</body>
+</html>

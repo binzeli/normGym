@@ -1,0 +1,44 @@
+# Render Blueprint for the normGym human-experiment server (always-on, paid).
+#
+# Render reads a Blueprint from render.yaml at the REPO ROOT. Either copy this
+# file to the repo root and use Render's "Blueprint" flow, or just set these
+# same values by hand in the dashboard (New → Web Service → Runtime: Docker).
+# See README section 4 for the click-by-click guide.
+services:
+  - type: web
+    name: normgym-experiment
+    runtime: docker
+    dockerfilePath: experiment/human/Dockerfile
+    dockerContext: .              # build from repo root (Dockerfile needs src/)
+    plan: starter                 # paid, ALWAYS ON (never sleeps). Bump to standard
+                                  # if rendering feels slow under load.
+    region: oregon                # pick the region closest to your participants
+    healthCheckPath: /health
+    autoDeploy: false             # deliberate deploys only (avoid mid-study redeploys)
+    envVars:
+      # Hidden TEST norms (space-separated). Each participant is randomly assigned
+      # BLOCKS of these in randomized order. Edit to your study set.
+      - key: NORM_TYPES
+        value: occupation_seat_no_orange movement_clockwise_move
+      # Norm used only for the Example + Practice intro (kept out of the test pool).
+      - key: TUTORIAL_NORM
+        value: straight_line
+      - key: BLOCKS
+        value: "2"
+      - key: WORLD_TYPE
+        value: cafe
+      # Stable signing key for participant sessions (Render generates a random one).
+      - key: SECRET_KEY
+        generateValue: true
+      # Token for the data-download endpoints (/admin/results, /admin/list).
+      # Render generates a random value; read it from the dashboard env vars.
+      - key: ADMIN_TOKEN
+        generateValue: true
+    # Keeps participant logs across restarts/redeploys (Starter plan supports disks).
+    disk:
+      # Disk name is a Render-side identifier — renaming it would provision a
+      # NEW empty disk and orphan the one holding the collected data, so it
+      # stays 'results' even though the app now writes to data/.
+      name: results
+      mountPath: /app/experiment/human/data
+      sizeGB: 1

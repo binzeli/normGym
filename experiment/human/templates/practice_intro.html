@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>normGym Study — Practice</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% from '_macros.html' import progress %}
+<div class="page">
+  {{ progress('practice', 0, total_blocks, 0) }}
+
+  <h1>Practice round</h1>
+  <p class="subtitle">Read this before you start playing.</p>
+
+  <div class="card accent">
+    <h2 style="margin-top:0">You'll practice playing in the game</h2>
+    <p>Next you'll play a short <strong>practice round</strong> so you can get
+    comfortable with the controls and how the game works.</p>
+    <p>Once you complete it, you'll <strong>start the actual study</strong>.</p>
+  </div>
+
+  <div class="btn-row">
+    <a href="{{ next_url }}" class="btn btn-primary">Start the practice round →</a>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>normGym Study — {{ page_title }}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+</head>
+<body class="game-body">
+{% from '_macros.html' import progress %}
+{% set S = url_for('static', filename='sprites/') %}
+{# The playing tip. Not shown in the sidebar — it surfaces only in the tip
+   banner, every TIP_EVERY_N_VIOLATIONS violations (see experiment.js). #}
+{% set task_tip %}Press <kbd>space</kbd> to stay where you are and observe what
+others do — a good way to figure out the norm.{% endset %}
+
+<div class="game-progress">{{ progress(stage, block, total_blocks, episode) }}</div>
+
+<div class="game-page">
+
+  <!-- ===== Header ===== -->
+  <header class="game-header">
+    {# Display names only — the phase VALUE stays 'interactive' everywhere in
+       the code, config and logs. #}
+    {% set PHASE_LABELS = {'demo': 'example', 'practice': 'practice',
+                           'interactive': 'learning', 'test': 'test'} %}
+    <span class="phase-pill">{{ PHASE_LABELS.get(phase, phase) }}</span>
+    <div>
+      <h1>{{ page_title }}</h1>
+      {% if subtitle %}<div class="game-subtitle">{{ subtitle }}</div>{% endif %}
+    </div>
+    <div class="spacer"></div>
+    {% if mode == 'play' %}
+      <button class="btn" id="btn-start">Start round</button>
+    {% else %}
+      <button class="btn" id="btn-replay">▶ Replay example</button>
+    {% endif %}
+    <a href="{{ next_url }}" class="btn btn-primary disabled" id="btn-continue">Continue →</a>
+  </header>
+
+  <div class="main">
+    <!-- ===== Sidebar ===== -->
+    <aside class="sidebar">
+      <!-- Hidden until the round starts (see startRound in experiment.js): there
+           is no goal to show before then. -->
+      <section id="task-section" style="display:none">
+        <h2>Your task</h2>
+        {% if phase == 'test' %}
+          <p style="font-size:1rem;color:#c0392b;font-weight:600;margin:0 0 10px">
+            Complete the goal below. You must follow the social norm you just
+            learned.
+          </p>
+        {% else %}
+          <p style="font-size:1rem;color:#555;margin:0 0 10px">
+            Complete the goal below. Remember to figure out the social norm.
+          </p>
+        {% endif %}
+        <div id="target-banner"><span id="target-banner-text">—</span></div>
+      </section>
+      <section>
+        <h2>This is you</h2>
+        <div class="you-figure">
+          <img src="{{ S }}blue_you.png" class="you-combined" id="you-sprite" alt="your character">
+        </div>
+        <p style="font-size:0.82rem;color:#555;margin:8px 0 0">
+          Your character is labelled <strong>You</strong> and carries a
+          <strong>gold star ⭐</strong>. 
+        </p>
+      </section>
+    </aside>
+
+    <!-- ===== Game area ===== -->
+    <div class="game-area" id="game-area">
+      <div id="status-bar">{% if mode == 'play' %}Press <strong>Start round</strong> to begin.{% else %}Loading example…{% endif %}</div>
+
+      <!-- Violation banner: sits ABOVE the board (never over it) so the step
+           that triggered the violation stays visible while it is shown. -->
+      <div id="violation-modal">
+        <div class="modal-card">
+          <div class="modal-text">
+            <h2>Norm Violation</h2>
+            <p id="violation-modal-msg">You moved against the social norm.</p>
+          </div>
+          <button class="btn btn-primary" id="btn-modal-continue" onclick="continueAfterViolation()">Continue</button>
+        </div>
+      </div>
+
+      <!-- Tip banner: shown in the same place, after every Nth violation, once
+           the participant dismisses that violation's message. -->
+      <div id="tip-modal">
+        <div class="modal-card tip-card">
+          <div class="modal-text">
+            <h2>💡 Tip</h2>
+            <p>{{ task_tip }}</p>
+          </div>
+          <button class="btn btn-primary" id="btn-tip-continue" onclick="dismissTip()">Got it</button>
+        </div>
+      </div>
+
+      <div class="frame-wrapper" id="frame-wrapper">
+        {# Board badge: the running norm-violation count (there is no score
+           display anywhere — reward is tracked server-side only). #}
+        {% if mode == 'play' %}<div id="violation-badge">Norm violations <span id="violation-badge-value">0</span></div>{% endif %}
+        <div id="frame-placeholder">Game will appear here</div>
+        <img id="game-frame" alt="game frame" style="display:none">
+        <div id="finished-overlay">
+          <h2 id="finished-title">Round complete</h2>
+          <p id="finished-msg"></p>
+          <p style="color:#999;font-size:0.85rem">Click <strong>Continue →</strong> (top right) to go on.</p>
+        </div>
+      </div>
+
+      <div class="replay-bar" id="replay-bar">
+        <button class="btn replay-toggle" id="btn-show-replay" onclick="openReplay()">⏪ Replay</button>
+        <span class="replay-hint">Click <strong>Replay</strong> to review your previous moves.</span>
+      </div>
+
+      <div class="timeline-bar" id="timeline-bar" style="display:none">
+        <button class="timeline-btn" id="btn-live" onclick="goLive()" title="Jump to latest">⏭</button>
+        <button class="timeline-btn" id="btn-prev" onclick="stepBack()" title="Previous frame" disabled>◀</button>
+        <input type="range" id="timeline" min="0" max="0" value="0" step="1" disabled>
+        <button class="timeline-btn" id="btn-next" onclick="stepForward()" title="Next frame" disabled>▶</button>
+        <span id="timeline-label">step 0 / 0</span>
+        <button class="btn replay-toggle" id="btn-continue-play" onclick="closeReplay()">Continue play ▶</button>
+      </div>
+    </div>
+
+    <!-- ===== Right panel ===== -->
+    <aside class="rightbar">
+      {% if mode == 'play' %}
+      <section>
+        <h2>Controls</h2>
+        <div class="guide">
+          <div class="guide-row"><kbd>↑</kbd><span class="desc">move up</span></div>
+          <div class="guide-row"><kbd>↓</kbd><span class="desc">move down</span></div>
+          <div class="guide-row"><kbd>←</kbd><span class="desc">move left</span></div>
+          <div class="guide-row"><kbd>→</kbd><span class="desc">move right</span></div>
+          <div class="guide-row"><kbd>space</kbd><span class="desc">wait</span></div>
+        </div>
+      </section>
+      {% endif %}
+      <section>
+        <h2>Scoring</h2>
+        <div class="guide">
+          <div class="guide-row"><span class="reward-amt pos">+10</span><span class="desc">reach goal</span></div>
+          <div class="guide-row"><span class="reward-amt neg">−5</span><span class="desc">collision</span></div>
+          <div class="guide-row"><span class="reward-amt neg">−20</span><span class="desc">norm violation</span></div>
+          <div class="guide-row"><span class="reward-amt step">−0.1</span><span class="desc">each step</span></div>
+        </div>
+      </section>
+      <section>
+        <h2>Norm violations</h2>
+        <div class="violation-count">
+          <span id="violation-total">0</span>
+          <span class="violation-count-label">total</span>
+        </div>
+        <div class="violation-log" id="violation-log">
+          <div class="violation-empty" id="violation-empty">No violations yet.</div>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  {% if phase == 'interactive' %}
+  <!-- ===== Mid-round check-in (interactive only) =====
+       Unlike the violation banner this one DOES sit over the board: play is
+       paused and there is nothing on the board to read while answering. -->
+  <div id="guess-modal">
+    <div class="guess-card">
+      <h2>Quick check-in</h2>
+      <p class="guess-sub">You've played <span id="guess-step">—</span> steps. Before you
+      carry on, tell us what you think so far — then you'll go straight back to the game.</p>
+      <div class="field">
+        <label for="mid-guess-text">What do you think the social norm is?
+          <span style="color:#c0392b">*</span></label>
+        <!-- Required, but the button stays clickable: submitMidGuess() blocks an
+             empty answer and reveals #mid-guess-error instead. A disabled button
+             would give the participant nothing to click and no explanation. -->
+        <textarea id="mid-guess-text" rows="3" required
+          placeholder="Describe the rule you think you have to follow…"></textarea>
+        <div class="hint">An answer is required. If you have no idea yet, say so —
+        that's a useful answer too.</div>
+        <div class="guess-error" id="mid-guess-error" style="display:none">
+          Please answer before going back to the game.
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:6px">
+        <label for="mid-guess-conf">How confident are you?
+          (<span id="mid-guess-conf-val">0</span> / 100)</label>
+        <input type="range" id="mid-guess-conf" min="0" max="100" value="0" step="1"
+               style="width:100%"
+               oninput="document.getElementById('mid-guess-conf-val').textContent = this.value">
+        <div class="hint">0 = just guessing&nbsp;·&nbsp;100 = completely sure</div>
+      </div>
+      <div class="btn-row" style="margin-top:18px; justify-content:flex-end">
+        <button class="btn btn-primary" id="btn-guess-submit" onclick="submitMidGuess()">
+          Back to the game →
+        </button>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+
+<script>
+  window.EXP = {
+    mode: "{{ mode }}",                 // 'demo' | 'play'
+    phase: "{{ phase }}",               // 'demo' | 'practice' | 'interactive' | 'test'
+    participantId: "{{ participant_id }}",
+    normType: "{{ norm_type }}",
+    worldType: "{{ world_type }}",
+    block: "{{ block }}",
+    episode: "{{ episode }}",
+    nextUrl: "{{ next_url }}",
+    midGuessEvery: {{ mid_guess_every|default(0)|int }},
+  };
+</script>
+<script src="{{ url_for('static', filename='experiment.js') }}"></script>
+</body>
+</html>

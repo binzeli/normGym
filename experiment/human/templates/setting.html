@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>normGym Study — Tutorial</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% from '_macros.html' import progress %}
+{% set S = url_for('static', filename='sprites/') %}
+<div class="page wide">
+  {{ progress('setting', 0, total_blocks) }}
+
+  <h1>Tutorial</h1>
+  <p class="subtitle">Get familiar with the world, the characters, and your task before you play.</p>
+
+  <!-- ============ Sub-page 1 · the café layout ============ -->
+  <section id="sub-layout">
+  <p class="subpage-step">Part 1 of 4 &middot; The café layout</p>
+
+  
+
+  <div class="card">
+
+    {# --- Annotated scene. The image, arrows and labels live in one SVG with a
+       viewBox, so they scale together and stay aligned at any screen width.
+       Image is placed at (340, 20) inside a 1702x830 canvas, leaving room for
+       callout labels on the left and right. --- #}
+    <div class="scene-annotated">
+      <svg viewBox="0 0 1702 830" class="scene-svg"
+           xmlns="http://www.w3.org/2000/svg"
+           role="img" aria-label="Annotated example café scene">
+        <defs>
+          <marker id="arrowhead" markerWidth="16" markerHeight="16"
+                  refX="12" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+            <path d="M0,0 L13,4.5 L0,9 Z" fill="#3a6ea5"
+                  stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+
+        <image href="{{ url_for('static', filename='setting_scene.png') }}"
+               x="340" y="20" width="1022" height="790"/>
+
+        {# ---- connector arrows: each starts at the inner edge of its label,
+           at the label's vertical centre, and ends on the object. A white
+           halo is drawn under each line so it stays visible over the floor. --- #}
+        <g fill="none" stroke-linecap="round">
+          {# white halo underneath #}
+          <g stroke="#fff" stroke-width="9">
+            <line x1="314" y1="140" x2="489"  y2="143"/>  <!-- chairs -->
+            <line x1="314" y1="340" x2="900"  y2="445"/>  <!-- grey carpet -->
+            <line x1="314" y1="460" x2="428"  y2="401"/>  <!-- doors -->
+            <line x1="314" y1="640" x2="610"  y2="531"/>  <!-- tables -->
+            <line x1="1388" y1="140" x2="800"  y2="140"/> <!-- counter -->
+            <line x1="1388" y1="320" x2="1225" y2="205"/> <!-- bakery -->
+            <line x1="1388" y1="500" x2="1080" y2="210"/> <!-- waiting area -->
+          </g>
+          {# coloured line on top #}
+          <g stroke="#3a6ea5" stroke-width="3.5" marker-end="url(#arrowhead)">
+            <line x1="314" y1="140" x2="489"  y2="143"/>  <!-- chairs -->
+            <line x1="314" y1="340" x2="900"  y2="445"/>  <!-- grey carpet -->
+            <line x1="314" y1="460" x2="428"  y2="401"/>  <!-- doors -->
+            <line x1="314" y1="640" x2="610"  y2="531"/>  <!-- tables -->
+            <line x1="1388" y1="140" x2="800"  y2="140"/> <!-- counter -->
+            <line x1="1388" y1="320" x2="1225" y2="205"/> <!-- bakery -->
+            <line x1="1388" y1="500" x2="1080" y2="210"/> <!-- waiting area -->
+          </g>
+        </g>
+
+        {# ---- callout labels (HTML inside SVG so text wraps). Box centre y
+           matches its arrow's start y. --- #}
+        <!-- left column -->
+        <foreignObject x="6" y="70" width="308" height="140">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="callout">
+            <div><strong>Chair.</strong> You can <strong>sit on a chair</strong>.</div>
+          </div>
+        </foreignObject>
+        <foreignObject x="6" y="270" width="308" height="140">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="callout">
+            <div><strong>Grey carpet.</strong></div>
+          </div>
+        </foreignObject>
+        <foreignObject x="6" y="390" width="308" height="140">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="callout">
+            <div><strong>Door.</strong> There are three doors at the edges.</div>
+          </div>
+        </foreignObject>
+        <foreignObject x="6" y="570" width="308" height="140">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="callout">
+            <div><strong>Table.</strong> You cannot walk through them.</div>
+          </div>
+        </foreignObject>
+
+        <!-- right column -->
+        <foreignObject x="1388" y="70" width="308" height="140">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="callout callout-right">
+            <div><strong>Counter.</strong> The service counter where you order.</div>
+          </div>
+        </foreignObject>
+        <foreignObject x="1388" y="250" width="308" height="140">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="callout callout-right">
+            <div><strong>Bakery.</strong></div>
+          </div>
+        </foreignObject>
+        <foreignObject x="1388" y="430" width="308" height="140">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="callout callout-right">
+            <div><strong>Waiting area.</strong> The marked yellow footprint zone is where
+            characters wait to pick up their orders.</div>
+          </div>
+        </foreignObject>
+      </svg>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <a href="{{ url_for('cover_story') }}" class="btn">← Back</a>
+    <button type="button" class="btn btn-primary" onclick="showSub('characters')">Next: the characters →</button>
+  </div>
+  </section>
+
+  <!-- ============ Sub-page 2 · the characters ============ -->
+  <section id="sub-characters" hidden>
+  <p class="subpage-step">Part 2 of 4 &middot; The characters</p>
+
+  <div class="card accent">
+    <h2 style="margin-top:0">How to read the characters</h2>
+    <div class="legend">
+      <div class="legend-row">
+        <div class="legend-icons">
+          <img src="{{ S }}orange.png" class="sprite"><img src="{{ S }}green.png" class="sprite"><img src="{{ S }}blue.png" class="sprite">
+        </div>
+        <div class="legend-text">
+          <strong>Three colours.</strong> Characters appear in orange, green, and
+          blue, which represents <strong>three different social groups</strong>.
+        </div>
+      </div>
+
+      <div class="legend-row">
+        <div class="legend-icons you-icon">
+          <img src="{{ S }}blue.png" class="sprite">
+          <img src="{{ S }}llm_star.png" class="sprite star-overlay">
+        </div>
+        <div class="legend-text">
+          <strong>“You”.</strong> You can be in any of the three social groups. Your own
+          character is labelled <strong>You</strong> and carries a <strong>gold star</strong>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin:0 0 6px; text-align:center">A character's status</h3>
+    <p class="hint" style="margin:0 0 6px; text-align:center">Badges above a character
+    show what it is doing right now.</p>
+
+    {# --- Annotated characters. Same scalable-SVG approach as the layout page:
+       the close-up image is drawn at (290, 20) inside a 1700x860 canvas and
+       scaled to 1120 wide; arrows point from side labels to the status badges
+       (clock / red "!" / green check) on specific characters. Arrows start
+       slightly inset from the labels to keep them short, and stop just short of
+       each badge so the icon stays visible. --- #}
+    <div class="scene-annotated">
+      <svg viewBox="0 0 1700 860" class="scene-svg"
+           xmlns="http://www.w3.org/2000/svg"
+           role="img" aria-label="Annotated character close-up">
+        <defs>
+          <marker id="arrowhead-c" markerWidth="16" markerHeight="16"
+                  refX="12" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+            <path d="M0,0 L13,4.5 L0,9 Z" fill="#3a6ea5"
+                  stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+
+        <image href="{{ url_for('static', filename='setting_character.png') }}"
+               x="290" y="20" width="1120" height="820"/>
+
+        {# ---- connector arrows (inset from label -> status badge), white halo under ---- #}
+        <g fill="none" stroke-linecap="round">
+          <g stroke="#fff" stroke-width="9">
+            <line x1="364"  y1="205" x2="791" y2="205"/> <!-- timer (Eden) -->
+            <line x1="1336" y1="269" x2="913" y2="269"/> <!-- collision (You) -->
+            <line x1="1336" y1="474" x2="910" y2="474"/> <!-- done (Ash) -->
+          </g>
+          <g stroke="#3a6ea5" stroke-width="3.5" marker-end="url(#arrowhead-c)">
+            <line x1="364"  y1="205" x2="791" y2="205"/>
+            <line x1="1336" y1="269" x2="913" y2="269"/>
+            <line x1="1336" y1="474" x2="910" y2="474"/>
+          </g>
+        </g>
+
+        {# ---- callout labels. Box centre y matches its arrow's y. ---- #}
+        <foreignObject x="6" y="135" width="278" height="140">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="callout">
+            <div><strong>Timer (clock).</strong> The character is busy for a
+            few steps (e.g. ordering) before it moves on.</div>
+          </div>
+        </foreignObject>
+        <foreignObject x="1416" y="214" width="278" height="110">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="callout callout-right">
+            <div><strong>Red “!”.</strong> Appears when a character
+            collides with someone.</div>
+          </div>
+        </foreignObject>
+        <foreignObject x="1416" y="404" width="278" height="140">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="callout callout-right">
+            <div><strong>Green check (✓).</strong> The character has
+            finished and is heading to a door to
+            leave.</div>
+          </div>
+        </foreignObject>
+      </svg>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button type="button" class="btn" onclick="showSub('layout')">← Back</button>
+    <button type="button" class="btn btn-primary" onclick="showSub('violation')">Next: norm violations →</button>
+  </div>
+  </section>
+
+  <!-- ============ Sub-page 3 · the norm-violation signal ============ -->
+  <section id="sub-violation" hidden>
+  <p class="subpage-step">Part 3 of 4 &middot; When you break a norm</p>
+
+  <div class="card accent">
+    <h2 style="margin-top:0">Signals of a norm violation</h2>
+    <p style="margin:0">If you  violate a norm, you will see a
+    <strong>window pop up</strong>, and a <strong>red cross mark</strong> appears on the
+    character who violated the norm.</p>
+  </div>
+
+  <div class="card">
+    <!-- One screenshot of the real screen, with the callouts sitting in gutters
+         either side of it. The SVG viewBox spans the whole figure — the 1634x1240
+         screenshot plus a 420-unit gutter each side — so the labels stay outside
+         the image and the arrows stay locked to their targets at any width.
+         The image's 66.05% width is 1634/2474; centring it puts it exactly in the
+         middle band, so screenshot and overlay coordinates stay in register. -->
+    <div style="position:relative; max-width:1150px; margin:0 auto">
+      <img src="{{ url_for('static', filename='violation.png') }}"
+           alt="The game screen after a violation: a 'Norm Violation' message sits above the
+                board, and the 'You' character on the map is crossed out by a red X."
+           style="width:66.05%; height:auto; display:block; margin:0 auto; border-radius:8px">
+      <svg viewBox="0 0 2474 1240" aria-hidden="true"
+           style="position:absolute; inset:0; width:100%; height:100%; pointer-events:none">
+        <defs>
+          <marker id="v-arrow" viewBox="0 0 10 10" refX="9" refY="5"
+                  markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#c0392b"></path>
+          </marker>
+        </defs>
+
+        <!-- 1 · left gutter → the message above the board -->
+        <text x="390" y="91" text-anchor="end" font-size="38" font-weight="700"
+              fill="#c0392b" font-family="system-ui, sans-serif">1 &#183; The violation</text>
+        <text x="390" y="139" text-anchor="end" font-size="38" font-weight="700"
+              fill="#c0392b" font-family="system-ui, sans-serif">message</text>
+        <path d="M 410 102 L 605 102" stroke="#c0392b" stroke-width="7"
+              fill="none" marker-end="url(#v-arrow)"></path>
+
+        <!-- 2 · right gutter → the red cross on the board -->
+        <text x="2094" y="613" font-size="38" font-weight="700"
+              fill="#c0392b" font-family="system-ui, sans-serif">2 &#183; The red &#10007; on</text>
+        <text x="2094" y="661" font-size="38" font-weight="700"
+              fill="#c0392b" font-family="system-ui, sans-serif">your character</text>
+        <path d="M 2074 624 L 1620 566" stroke="#c0392b" stroke-width="7"
+              fill="none" marker-end="url(#v-arrow)"></path>
+      </svg>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button type="button" class="btn" onclick="showSub('characters')">← Back</button>
+    <button type="button" class="btn btn-primary" onclick="showSub('task')">Next: your task →</button>
+  </div>
+  </section>
+
+  <!-- ============ Sub-page 4 · your task & scoring ============ -->
+  <section id="sub-task" hidden>
+  <p class="subpage-step">Part 4 of 4 &middot; Your task</p>
+
+  <div class="card accent">
+    <h2 style="margin-top:0">⚠️ Your task</h2>
+    <p><strong>1. Move around and reach the goal locations.</strong></p>
+    <p style="text-align:center;font-size:1.02rem;font-weight:600;color:#2c5d86">
+      enter the café&nbsp; → &nbsp;navigate to your assigned goal position&nbsp; → &nbsp;leave the café through a door
+    </p>
+    <p>You get your goals one at a time: once you finish your first goal, the
+    next one appears. Your current goal cell is outlined and labelled
+    <strong style="color:#e63946">GOAL</strong> on the board, so you never have
+    to search for it.</p>
+    <p><strong>2. Figure out the social norm</strong> while you reach your goal.</p>
+    <p>We will not tell you what the social norm is; you have to work it out yourself from the feedback.</p>
+    <p>The same
+    <strong style="color:#c0392b">red ✗</strong> also appears on
+    <strong>other characters</strong> when they break the norm, so watch them too.</p>
+
+
+  </div>
+
+  <div class="card accent">
+    <h3 style="margin-top:0; margin-bottom:8px">Scoring</h3>
+    <div class="guide">
+      <div class="guide-row"><span class="reward-amt pos">+10</span><span class="desc">reach your goal</span></div>
+      <div class="guide-row"><span class="reward-amt neg">−5</span><span class="desc">collision with another character</span></div>
+      <div class="guide-row"><span class="reward-amt neg">−20</span><span class="desc"><strong>breaking the social norm</strong></span></div>
+      <div class="guide-row"><span class="reward-amt step">−0.1</span><span class="desc">each step</span></div>
+    </div>
+
+    <div class="norm-box" style="text-align:center">
+      <strong>Your aim is to score as many points as possible.</strong>
+      Reach your goal quickly, avoid collisions, and follow the social norm.
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button type="button" class="btn" onclick="showSub('violation')">← Back</button>
+    <a href="{{ next_url }}" class="btn btn-primary">Continue →</a>
+  </div>
+  </section>
+
+  <script>
+    function showSub(which) {
+      document.getElementById('sub-layout').hidden = (which !== 'layout');
+      document.getElementById('sub-characters').hidden = (which !== 'characters');
+      document.getElementById('sub-violation').hidden = (which !== 'violation');
+      document.getElementById('sub-task').hidden = (which !== 'task');
+      window.scrollTo(0, 0);
+    }
+  </script>
+</div>
+</body>
+</html>

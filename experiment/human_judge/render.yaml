@@ -1,0 +1,24 @@
+# Render Blueprint for the LLM-judge validation study (always-on, paid).
+# Render reads a Blueprint from render.yaml at the REPO ROOT: copy this file
+# there, or set the same values by hand (New → Web Service → Runtime: Docker).
+services:
+  - type: web
+    name: normgym-judge-study
+    runtime: docker
+    dockerfilePath: experiment/human_judge/Dockerfile
+    dockerContext: experiment/human_judge
+    plan: starter
+    region: oregon
+    healthCheckPath: /health
+    autoDeploy: false
+    envVars:
+      - key: COMPLETION_CODE
+        value: XXXXXXXX          # the Prolific completion code for this study
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ADMIN_TOKEN
+        generateValue: true      # for /admin/results?token=... (read it in the dashboard)
+    disk:
+      name: judge-results
+      mountPath: /app/experiment/human_judge/data
+      sizeGB: 1

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rule-guess rating study — Consent</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% from '_macros.html' import progress %}
+<div class="page">
+  {{ progress('welcome', 0, n_items) }}
+
+  <h1>Consent to Participate</h1>
+  <p class="subtitle">Please read the information below before you begin.</p>
+
+  <form method="POST" action="{{ url_for('begin') }}">
+  <div class="card accent">
+    <p>We are researchers at Johns Hopkins University, studying how people
+    and AI systems understand social rules. Thank you for taking part. In this
+    study you will read short descriptions of a rule that applies in a simulated
+    world, together with an AI player's guess about that rule, and rate how
+    well the guess matches the rule. You will rate {{ n_items }} such guesses.
+    The session takes approximately 10–15 minutes.</p>
+
+    <h2>Consent</h2>
+    <p>By selecting the "I have read the above and I agree to participate." button below, you acknowledge that:</p>
+    <ul>
+      <li>You must be at least 18 years old to participate.</li>
+      <li>Your participation in this research is voluntary.</li>
+      <li>You may decline to answer any or all of the following questions by
+      closing this window in your browser.</li>
+      <li>You may decline further participation, at any time, without adverse
+      consequences.</li>
+      <li>Your anonymity is assured; the researchers who have requested your
+      participation will not receive any personal information about you.</li>
+    </ul>
+    <p>If you have any questions, please contact us at
+    <a href="mailto:bli91@jh.edu">bli91@jh.edu</a>.</p>
+
+    <div class="field" style="margin-bottom:0">
+      <label class="checkrow">
+        <input type="checkbox" name="consent" required>
+        <span>I have read the above and I agree to participate.</span>
+      </label>
+    </div>
+  </div>
+
+    <div class="card">
+      <div class="field">
+        <label for="participant_id">Prolific ID</label>
+        <input type="text" id="participant_id" name="participant_id"
+               placeholder="e.g. 5f2a8c1b9d3e4f6a7b8c9d0e" required>
+        <div class="hint">Please enter your Prolific ID.</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button type="submit" class="btn btn-primary">Continue</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>

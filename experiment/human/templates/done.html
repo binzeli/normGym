@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>normGym Study — {{ 'Thank you' if submitted else 'Background survey' }}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% from '_macros.html' import progress %}
+<div class="page">
+  {{ progress('done', 0, total_blocks) }}
+
+  {% if submitted %}
+  <h1>Thank you! 🎉</h1>
+  <p class="subtitle">Your responses have been recorded.</p>
+
+  <div class="card accent" style="text-align:center">
+    <p style="margin:0 0 10px">Your completion code is</p>
+    <p class="completion-code">{{ completion_code }}</p>
+  </div>
+  {% else %}
+  <h1>You've completed all the scenarios! 🎉</h1>
+  <p class="subtitle">That's all the gameplay done. Please complete this brief
+  background survey to finish.</p>
+
+  <form method="POST" action="{{ url_for('done') }}">
+    <div class="card">
+      <div class="field">
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" min="18" max="120"
+               style="max-width:120px" required>
+      </div>
+      <div class="field">
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender" required>
+          <option value="" disabled selected>Select…</option>
+          <option value="female">Female</option>
+          <option value="male">Male</option>
+          <option value="non_binary">Non-binary</option>
+          <option value="other">Other</option>
+          <option value="prefer_not_to_say">Prefer not to say</option>
+        </select>
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label for="culture">Which country do you live in?</label>
+        <input type="text" id="culture" name="culture" required
+               placeholder="e.g. United Kingdom">
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size:0.95rem; margin:0 0 14px; color:#444">About how you played</h2>
+
+      <div class="field">
+        <label for="strategy">How did you go about working out the social norms?</label>
+        <textarea id="strategy" name="strategy" rows="4" required
+          placeholder="Describe what you tried, what you paid attention to, and how your approach changed…"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="info_source">What did you rely on most to work out the norms?</label>
+        <select id="info_source" name="info_source" required>
+          <option value="" disabled selected>Select…</option>
+          <option value="others">Mostly watching what the other characters did</option>
+          <option value="punishment">Mostly my own violation messages</option>
+          <option value="both">Both about equally</option>
+          <option value="neither">Neither — mainly guessing</option>
+        </select>
+        <div class="hint" style="margin-top:8px">
+          <label for="info_source_other" style="font-weight:400; font-size:0.82rem;
+                 color:#999; margin-bottom:4px">Anything to add about that? (optional)</label>
+          <textarea id="info_source_other" name="info_source_other" rows="2"
+            placeholder="Optional"></textarea>
+        </div>
+      </div>
+
+      <div class="field" style="margin-bottom:0">
+        <label for="test_mistake">In the test rounds, did you ever break a norm even
+          though you thought you knew it? If so, why do you think that happened?</label>
+        <textarea id="test_mistake" name="test_mistake" rows="3" required
+          placeholder="If this never happened to you, just say so."></textarea>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button type="submit" class="btn btn-primary">Finish →</button>
+    </div>
+  </form>
+  {% endif %}
+</div>
+</body>
+</html>

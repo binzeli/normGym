@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>normGym Study — Quick quiz</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+  .quiz-q { margin: 0 0 6px; font-weight: 600; }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; margin: 10px 0 0; }
+  .quiz-option { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px;
+                 border: 1px solid #d9dee3; border-radius: 8px; cursor: pointer;
+                 background: #fff; transition: border-color .12s, background .12s; }
+  .quiz-option:hover { border-color: #b7c2cc; }
+  .quiz-option input { margin-top: 2px; flex: 0 0 auto; }
+  /* image (character) options: a wrapping row of sprite tiles */
+  .quiz-options-img { flex-direction: row; flex-wrap: wrap; }
+  .quiz-options-img .quiz-option { flex-direction: column; align-items: center;
+                 gap: 8px; padding: 14px 18px; }
+  .quiz-sprite.you-icon { display: inline-flex; }
+  .quiz-sprite .sprite { width: 56px; height: 56px; }
+  .you-icon .star-overlay { width: 26px; height: 26px; right: -6px; bottom: 0; }
+  .quiz-feedback { font-size: .85rem; font-weight: 600; margin: 10px 0 0; display: none; }
+  .card.wrong { border-color: #e6b0aa; }
+  .card.wrong .quiz-feedback.bad { display: block; color: #c0392b; }
+  .card.correct { border-color: #a9dfbf; }
+  .card.correct .quiz-feedback.good { display: block; color: #1e8449; }
+  #quiz-summary { display: none; font-weight: 600; margin: 0 0 14px; }
+  #quiz-summary.bad { display: block; color: #c0392b; }
+</style>
+</head>
+<body>
+{% from '_macros.html' import progress %}
+<div class="page wide">
+  {{ progress('quiz', 0, total_blocks) }}
+
+  <h1>Quick comprehension quiz</h1>
+  <p class="subtitle">Answer these to make sure the instructions are clear. You need all
+  of them correct to continue — if any are wrong, you can fix them and try again.</p>
+
+  <div id="quiz-summary">Some answers are not correct yet. Review the
+  highlighted questions and try again.</div>
+
+  <form method="POST" action="{{ url_for('quiz') }}" id="quiz-form">
+    <input type="hidden" name="attempts" id="attempts" value="0">
+
+    {% for q in questions %}
+    <div class="card" id="card-{{ loop.index0 }}">
+      <p class="quiz-q">{{ loop.index }}. {{ q.prompt }}</p>
+      <div class="quiz-options"><!-- options injected by JS --></div>
+      <p class="quiz-feedback bad">Not quite — try another answer.</p>
+      <p class="quiz-feedback good">Correct.</p>
+    </div>
+    {% endfor %}
+
+    <div class="btn-row">
+      <a href="{{ url_for('setting') }}" class="btn">← Back</a>
+      <button type="submit" class="btn btn-primary" id="quiz-submit">Check answers &amp; continue →</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  // Build questions/options from server data so option indices stay correct.
+  const QUESTIONS = {{ questions|tojson }};
+  const form = document.getElementById('quiz-form');
+
+  QUESTIONS.forEach((q, qi) => {
+    const card = document.getElementById('card-' + qi);
+    const optWrap = card.querySelector('.quiz-options');
+    optWrap.innerHTML = '';
+    // Image-option questions (e.g. "which character will you control?") lay the
+    // choices out in a row of sprite tiles; text questions stay in a column.
+    if (q.images) { optWrap.classList.add('quiz-options-img'); }
+    q.options.forEach((opt, oi) => {
+      const label = document.createElement('label');
+      label.className = 'quiz-option';
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = 'q' + qi;
+      input.value = oi;
+      label.appendChild(input);
+      if (q.images && q.images[oi]) {
+        const fig = document.createElement('span');
+        fig.className = 'quiz-sprite you-icon';
+        q.images[oi].forEach((src, si) => {
+          const img = document.createElement('img');
+          img.src = src;
+          img.className = 'sprite' + (si > 0 ? ' star-overlay' : '');
+          img.alt = si === 0 ? opt : '';
+          fig.appendChild(img);
+        });
+        label.appendChild(fig);
+      } else {
+        const span = document.createElement('span');
+        span.textContent = opt;
+        label.appendChild(span);
+      }
+      optWrap.appendChild(label);
+    });
+  });
+
+  let attempts = 0;
+  form.addEventListener('submit', (e) => {
+    let allCorrect = true;
+    let allAnswered = true;
+    QUESTIONS.forEach((q, qi) => {
+      const card = document.getElementById('card-' + qi);
+      const checked = form.querySelector('input[name="q' + qi + '"]:checked');
+      card.classList.remove('correct', 'wrong');
+      if (!checked) { allAnswered = false; allCorrect = false; return; }
+      if (parseInt(checked.value, 10) === q.correct) {
+        card.classList.add('correct');
+      } else {
+        card.classList.add('wrong');
+        allCorrect = false;
+      }
+    });
+
+    attempts += 1;
+    document.getElementById('attempts').value = attempts;
+
+    if (!allCorrect) {
+      e.preventDefault();
+      const summary = document.getElementById('quiz-summary');
+      summary.textContent = allAnswered
+        ? 'Some answers are not correct yet. Review the highlighted questions and try again.'
+        : 'Please answer every question before continuing.';
+      summary.classList.add('bad');
+      const firstWrong = document.querySelector('.card.wrong, .card:not(.correct)');
+      if (firstWrong) firstWrong.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    // If allCorrect, let the form POST normally (saves answers + attempts).
+  });
+</script>
+</body>
+</html>

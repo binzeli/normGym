@@ -1,0 +1,335 @@
+{
+ "_comment": "Fixed experiment settings shared by every subject agent kind (llm, rl, ...). Each norm has its own base seed and one new-map world, tested three times: the world is repeated three times in norm_new_map_worlds so the new-map stage runs it under three different seeds. Within one norm experiment, run k re-seeds with base_seed + k (interactive uses base_seed, same-world tests +1..+num_tests, new-map tests continue from there), so every run gets a fresh setting that is still identical across subject kinds. Base seeds are spaced 100 apart so no run seed of one norm overlaps another norm's seeds. CLI flags override these values.",
+ "capacity": 10,
+ "norm_capacity": {
+  "_comment": "Per-norm batch size, overriding capacity above. occupation_region_capacity_1 uses 6 — 5 scripted customers plus the subject, which enters last (see SUBJECT_TEST_ENTERS_LAST in src/norms/occupation.py) — because the waiting zone holds one agent at a time: at the full capacity the extra traffic knocks the subject off the zone's edge while it queues for the slot the staged holder frees, and it times out. occupation_door_all_exit_A and occupation_region_single_class_only use 8: at 10 agents the oracle subject gets boxed in by traffic (contention at the single-class zone, congestion on the way to the mandatory left door) and its runs stop reaching 100% task success. Every movement norm (movement_*) uses 6: the rhythm norms slow every agent down and the direction norms constrain the routes, so at larger batches agents box each other in (crowding deadlocks in the library map's half-speed movement) and the oracle subject stops reaching 100% task success. occupation_seat_top_left_only and occupation_seat_bottom_right_only use 6: they bind a 2-4 chair quadrant, and at 10 agents every norm-following agent competes for those few chairs, so the subject can be crowded off its compliant seat until the run times out.",
+  "occupation_region_capacity_1": 6,
+  "occupation_door_all_exit_A": 8,
+  "occupation_region_single_class_only": 8,
+  "movement_clockwise_move": 6,
+  "movement_counterclockwise_move": 6,
+  "movement_no_odd_turn": 6,
+  "movement_no_even_turn": 6,
+  "movement_no_turn_mod3_0": 6,
+  "movement_no_turn_mod3_1": 6,
+  "movement_no_turn_mod3_2": 6,
+  "movement_move1_wait1": 6,
+  "movement_move2_wait1": 6,
+  "movement_move3_wait1": 6,
+  "occupation_door_all_exit_B": 8,
+  "occupation_door_all_exit_C": 8,
+  "occupation_seat_top_left_only": 6,
+  "occupation_seat_bottom_right_only": 6
+ },
+ "num_no_norm_agents": 1,
+ "max_steps": 200,
+ "test_max_steps": 100,
+ "num_tests": 3,
+ "world_type": "cafe",
+ "norm_seeds": {
+  "straight_line": 1000,
+  "zigzag_right2_line": 1200,
+  "zigzag_left1_line": 1300,
+  "bend_right1_line": 1505,
+  "bend_left2_line": 1805,
+  "edge_left_line": 2003,
+  "zigzag_right1_line": 1100,
+  "zigzag_left2_line": 1400,
+  "bend_left1_line": 1600,
+  "bend_right2_line": 1700,
+  "edge_right_line": 1900,
+  "square_right_line": 2102,
+  "square_left_line": 2200,
+  "staircase_right_line": 2300,
+  "staircase_left_line": 2400,
+  "lshape_right_line": 2900,
+  "lshape_left_line": 3200,
+  "movement_clockwise_move": 2507,
+  "movement_counterclockwise_move": 2606,
+  "movement_no_odd_turn": 2700,
+  "movement_no_even_turn": 2801,
+  "xcell_must_visit": 3000,
+  "xcell_forbidden": 3102,
+  "occupation_region_capacity_1": 3300,
+  "occupation_region_capacity_2": 3402,
+  "occupation_region_single_class_only": 3602,
+  "occupation_door_all_exit_A": 3700,
+  "occupation_door_A_forbidden": 3800,
+  "occupation_door_class_specific": 3902,
+  "occupation_seat_class_specific": 4001,
+  "occupation_seat_bottom_left_only": 4100,
+  "occupation_seat_no_bottom_left": 4203,
+  "occupation_seat_in_order": 4300,
+  "movement_no_turn_mod3_0": 4400,
+  "movement_no_turn_mod3_1": 4500,
+  "movement_no_turn_mod3_2": 4600,
+  "movement_move1_wait1": 4700,
+  "movement_move2_wait1": 4800,
+  "movement_move3_wait1": 4900,
+  "occupation_door_all_exit_B": 5000,
+  "occupation_door_all_exit_C": 5100,
+  "occupation_door_B_forbidden": 5200,
+  "occupation_door_C_forbidden": 5300,
+  "occupation_seat_top_left_only": 5400,
+  "occupation_seat_bottom_right_only": 5500,
+  "occupation_seat_no_bottom_right": 5600,
+  "occupation_door_class_specific_BCA": 5701,
+  "occupation_door_class_specific_CAB": 5800,
+  "occupation_seat_class_specific_rot1": 5900,
+  "occupation_seat_class_specific_rot2": 6000,
+  "occupation_seat_in_order_right": 6102
+ },
+ "norm_new_map_worlds": {
+  "_comment": "straight_line has no entry: it is the human-study tutorial norm, not a test norm (its norm_seeds entry stays — the human app reads it for the tutorial's base seed).",
+  "zigzag_right2_line": [
+   "barbershop",
+   "barbershop",
+   "barbershop"
+  ],
+  "zigzag_left1_line": [
+   "movie_theater",
+   "movie_theater",
+   "movie_theater"
+  ],
+  "bend_right1_line": [
+   "bank",
+   "bank",
+   "bank"
+  ],
+  "bend_left2_line": [
+   "pharmacy",
+   "pharmacy",
+   "pharmacy"
+  ],
+  "edge_left_line": [
+   "hospital",
+   "hospital",
+   "hospital"
+  ],
+  "zigzag_right1_line": [
+   "library",
+   "library",
+   "library"
+  ],
+  "zigzag_left2_line": [
+   "post_office",
+   "post_office",
+   "post_office"
+  ],
+  "bend_left1_line": [
+   "clothing_store",
+   "clothing_store",
+   "clothing_store"
+  ],
+  "bend_right2_line": [
+   "grocery_store",
+   "grocery_store",
+   "grocery_store"
+  ],
+  "edge_right_line": [
+   "bank",
+   "bank",
+   "bank"
+  ],
+  "square_right_line": [
+   "post_office",
+   "post_office",
+   "post_office"
+  ],
+  "square_left_line": [
+   "pharmacy",
+   "pharmacy",
+   "pharmacy"
+  ],
+  "staircase_right_line": [
+   "movie_theater",
+   "movie_theater",
+   "movie_theater"
+  ],
+  "staircase_left_line": [
+   "barbershop",
+   "barbershop",
+   "barbershop"
+  ],
+  "lshape_right_line": [
+   "hospital",
+   "hospital",
+   "hospital"
+  ],
+  "lshape_left_line": [
+   "grocery_store",
+   "grocery_store",
+   "grocery_store"
+  ],
+  "movement_clockwise_move": [
+   "bank",
+   "bank",
+   "bank"
+  ],
+  "movement_counterclockwise_move": [
+   "pharmacy",
+   "pharmacy",
+   "pharmacy"
+  ],
+  "movement_no_odd_turn": [
+   "library",
+   "library",
+   "library"
+  ],
+  "movement_no_even_turn": [
+   "clothing_store",
+   "clothing_store",
+   "clothing_store"
+  ],
+  "xcell_must_visit": [
+   "barbershop",
+   "barbershop",
+   "barbershop"
+  ],
+  "xcell_forbidden": [
+   "post_office",
+   "post_office",
+   "post_office"
+  ],
+  "occupation_region_capacity_1": [
+   "hospital",
+   "hospital",
+   "hospital"
+  ],
+  "occupation_region_capacity_2": [
+   "grocery_store",
+   "grocery_store",
+   "grocery_store"
+  ],
+  "occupation_region_single_class_only": [
+   "grocery_store",
+   "grocery_store",
+   "grocery_store"
+  ],
+  "occupation_door_all_exit_A": [
+   "movie_theater",
+   "movie_theater",
+   "movie_theater"
+  ],
+  "occupation_door_A_forbidden": [
+   "grocery_store",
+   "grocery_store",
+   "grocery_store"
+  ],
+  "occupation_door_class_specific": [
+   "clothing_store",
+   "clothing_store",
+   "clothing_store"
+  ],
+  "occupation_seat_class_specific": [
+   "movie_theater",
+   "movie_theater",
+   "movie_theater"
+  ],
+  "occupation_seat_bottom_left_only": [
+   "pharmacy",
+   "pharmacy",
+   "pharmacy"
+  ],
+  "occupation_seat_no_bottom_left": [
+   "library",
+   "library",
+   "library"
+  ],
+  "occupation_seat_in_order": [
+   "library",
+   "library",
+   "library"
+  ],
+  "movement_no_turn_mod3_0": [
+   "barbershop",
+   "barbershop",
+   "barbershop"
+  ],
+  "movement_no_turn_mod3_1": [
+   "movie_theater",
+   "movie_theater",
+   "movie_theater"
+  ],
+  "movement_no_turn_mod3_2": [
+   "hospital",
+   "hospital",
+   "hospital"
+  ],
+  "movement_move1_wait1": [
+   "post_office",
+   "post_office",
+   "post_office"
+  ],
+  "movement_move2_wait1": [
+   "grocery_store",
+   "grocery_store",
+   "grocery_store"
+  ],
+  "movement_move3_wait1": [
+   "bank",
+   "bank",
+   "bank"
+  ],
+  "occupation_door_all_exit_B": [
+   "post_office",
+   "post_office",
+   "post_office"
+  ],
+  "occupation_door_all_exit_C": [
+   "barbershop",
+   "barbershop",
+   "barbershop"
+  ],
+  "occupation_door_B_forbidden": [
+   "pharmacy",
+   "pharmacy",
+   "pharmacy"
+  ],
+  "occupation_door_C_forbidden": [
+   "clothing_store",
+   "clothing_store",
+   "clothing_store"
+  ],
+  "occupation_seat_top_left_only": [
+   "movie_theater",
+   "movie_theater",
+   "movie_theater"
+  ],
+  "occupation_seat_bottom_right_only": [
+   "hospital",
+   "hospital",
+   "hospital"
+  ],
+  "occupation_seat_no_bottom_right": [
+   "hospital",
+   "hospital",
+   "hospital"
+  ],
+  "occupation_door_class_specific_BCA": [
+   "library",
+   "library",
+   "library"
+  ],
+  "occupation_door_class_specific_CAB": [
+   "clothing_store",
+   "clothing_store",
+   "clothing_store"
+  ],
+  "occupation_seat_class_specific_rot1": [
+   "bank",
+   "bank",
+   "bank"
+  ],
+  "occupation_seat_class_specific_rot2": [
+   "barbershop",
+   "barbershop",
+   "barbershop"
+  ],
+  "occupation_seat_in_order_right": [
+   "post_office",
+   "post_office",
+   "post_office"
+  ]
+ }
+}

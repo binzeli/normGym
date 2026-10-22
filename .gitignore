@@ -1,0 +1,88 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+*.key
+
+# Virtual environments
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+.codex
+
+# Project specific
+simulation_figures/
+output*/
+results/
+# RL fine-tuning artifacts: model weights, rollout scratch, and eval outputs
+# are large and regenerable; the training code itself stays tracked.
+experiment/train/checkpoints/
+experiment/train/rollouts/
+experiment/results*/
+experiment/train/results_test/
+experiment/train/pilot/
+# Training plots and internal lab notes — kept local only.
+experiment/train/plots/
+experiment/train/RUN_LOG.md
+experiment/train/RL_TRAINING_PLAN.md
+# Human-eval summaries carry Prolific participant ids (participant_id, run_id,
+# per_participant) — keep out of the repo; regenerate from the study data with
+# experiment/human/eval/eval.py.
+experiment/human/eval/results/
+# Archived human-study runs with participant-named folders — keep out of the repo.
+experiment/human/old_results/
+actionQA/
+actionQA_*/
+data/
+# Keep the (empty) human-study data folder in the repo; its own .gitignore
+# excludes the participant files inside it.
+!experiment/human/data/
+# Archived pilot data folders (renamed data/ and data_figures/ snapshots) — never commit.
+experiment/human/data_pilot*/
+experiment/human/data_figures*/
+demonstration*/
+
+experiment/plot/trained/results/
+# Participant data from the human study (participant-id-named folders) — never commit.
+experiment/human/data/
+# LLM-judge human study: participant ratings (Prolific-id-named folders) — never commit.
+experiment/human_judge/data/*
+!experiment/human_judge/data/.gitignore
+
+# Showcase demo videos and frames (large, regenerable); only the README
+# teaser figures are tracked.
+demos/*
+!demos/teaser_trace.png
+!demos/teaser_protocol.png
+
+# Teaser figure: kept locally only
+teaser_figure/
+
+# Generated experiment outputs and transfer archives
+/experiment/local_vlm_*/
+/experiment/openrouter_*/
+/share/
+/*.tar.gz
+/*.tgz
+
+# Cluster (Slurm) launchers: local only, not part of the release
+slurm_script/
+# Paper plotting scripts and figures — kept local only, not part of the public release.
+experiment/plot/

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rule-guess rating study — Instructions</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% from '_macros.html' import progress, scale %}
+<div class="page">
+  {{ progress('instructions', 0, n_items) }}
+
+  <h1>Instructions</h1>
+  <p class="subtitle">About 10 minutes, {{ n_items }} items.</p>
+
+  <div class="card">
+    <p>AI players moved around a small simulated world (a café, a library, …)
+    that had a <strong>hidden social rule</strong>. They were only told when
+    they broke it, and had to guess the rule. An <strong>AI judge</strong> then
+    rated each guess on a 1–7 scale. <strong>We want to know whether you agree
+    with that judge.</strong></p>
+  </div>
+
+  <div class="card">
+    <p>Each item shows the <strong>true rule</strong>, an AI player's
+    <strong>guess</strong>, and the <strong>AI judge's rating</strong> of the
+    guess with its one-line reason. The judge's scale:</p>
+    <div class="scale-demo">{{ scale('demo7', likert7, required=False) }}</div>
+
+    <h3>Your question — How much do you agree with the AI judge's rating?</h3>
+    <div class="scale-demo">{{ scale('demo5', agree5, required=False) }}</div>
+    <p class="hint" style="margin-top:-4px">Judge the content of the guess against the rule, not
+    its wording. Disagree if you think the judge was clearly too harsh or too generous.</p>
+  </div>
+
+  <div class="btn-row">
+    <a href="{{ url_for('rate', k=0) }}" class="btn btn-primary">Start rating</a>
+  </div>
+</div>
+<script>
+  document.querySelectorAll('.scale-demo input').forEach(i => { i.disabled = true; });
+</script>
+</body>
+</html>

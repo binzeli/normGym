@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>normGym Study — The study begins</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% from '_macros.html' import progress %}
+<div class="page">
+  {{ progress('main', 0, total_blocks, 0) }}
+
+  <div class="hero">
+    <div class="hero-mark">✅</div>
+    <h1>Practice complete</h1>
+    <p class="hero-lead">The real study starts now.</p>
+    <div class="hero-rule"></div>
+
+    <div class="card accent hero-note">
+      <p>You've finished the practice round, so you know the controls and what a
+      norm violation looks like.</p>
+      <p>From here you'll play
+      {% if total_blocks == 1 %}<strong>one scenario</strong>{% else %}<strong>{{ total_blocks }} scenarios</strong>{% endif %}.
+      Each one has a <strong>brand-new hidden social norm</strong> — the norm you
+      practised with does not apply any more, so start fresh.</p>
+      <p>Take your time and watch the other characters. When you're ready, click
+      below.</p>
+    </div>
+
+    <div class="btn-row">
+      <a href="{{ next_url }}" class="btn btn-primary">Start the study →</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

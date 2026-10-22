@@ -1,0 +1,36 @@
+# normGym dependencies. Install with: pip install -r requirements.txt
+# Minimum versions are the oldest we rely on; the stack we test with is noted
+# alongside (Python 3.13, torch 2.10, transformers 5.2).
+
+# Environment, rendering and plots
+numpy
+matplotlib
+pillow
+imageio[ffmpeg]
+scipy
+gymnasium>=1.0
+
+# LLM / VLM agents (OpenRouter API and local Hugging Face models)
+openai>=1.0
+torch>=2.4
+torchvision
+transformers>=4.57   # Qwen3-VL support
+accelerate>=1.0
+huggingface-hub
+
+# DQN baseline (experiment/run/rl)
+stable-baselines3==2.9.0
+tensorboard
+
+# LLM fine-tuning (experiment/train)
+peft>=0.13
+requests
+
+# Human study web app (experiment/human)
+flask
+flask-socketio
+eventlet
+
+# Not installed here: vLLM serves the policy during fine-tuning and runs the
+# DeepSeek-VL2 client. It pins its own torch, so install it in a separate
+# environment (see experiment/train/README.md).

@@ -1,0 +1,32 @@
+{# Progress strip: Welcome › Instructions › Item 1..N › Done.
+   stage: 'welcome' | 'instructions' | 'rate' | 'done';  k: 0-based item index #}
+{% macro progress(stage, k=0, n=10) %}
+{% if stage == 'welcome' %}{% set cur = 0 %}
+{% elif stage == 'instructions' %}{% set cur = 1 %}
+{% elif stage == 'rate' %}{% set cur = 2 + k %}
+{% else %}{% set cur = 2 + n %}{% endif %}
+<div class="progress">
+  <span class="step {{ 'active' if cur == 0 else 'done' }}"><span class="dot"></span>Welcome</span>
+  <span class="arrow">›</span>
+  <span class="step {{ 'active' if cur == 1 else ('done' if cur > 1 else '') }}"><span class="dot"></span>Instructions</span>
+  {% for i in range(n) %}
+  <span class="arrow">›</span>
+  <span class="step compact {{ 'active' if cur == 2 + i else ('done' if cur > 2 + i else '') }}"><span class="dot"></span>{{ i + 1 }}</span>
+  {% endfor %}
+  <span class="arrow">›</span>
+  <span class="step {{ 'active' if stage == 'done' else '' }}"><span class="dot"></span>Done</span>
+</div>
+{% endmacro %}
+
+{# Horizontal rating scale. name: form field; points: list of (value, anchor). #}
+{% macro scale(name, points, required=True) %}
+<div class="scale" data-scale="{{ name }}">
+  {% for v, anchor in points %}
+  <label class="scale-pt">
+    <input type="radio" name="{{ name }}" value="{{ v }}" {{ 'required' if required and loop.first else '' }}>
+    <span class="scale-num">{{ v }}</span>
+    {% if anchor %}<span class="scale-anchor">{{ anchor }}</span>{% endif %}
+  </label>
+  {% endfor %}
+</div>
+{% endmacro %}

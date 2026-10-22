@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rule-guess rating study — Item {{ k + 1 }} of {{ n }}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% from '_macros.html' import progress, scale %}
+<div class="page">
+  {{ progress('rate', k, n) }}
+
+  <h1>Item {{ k + 1 }} <span class="of">of {{ n }}</span></h1>
+  <p class="subtitle">Read the true rule and the AI player's guess, then answer below.</p>
+
+  {% if error %}<div class="card error-card">{{ error }}</div>{% endif %}
+
+  <form method="POST" action="{{ url_for('rate', k=k) }}" id="rate-form">
+    <input type="hidden" name="ms_own" id="ms_own" value="">
+    <input type="hidden" name="ms_reveal" id="ms_reveal" value="">
+    <input type="hidden" name="ms_submit" id="ms_submit" value="">
+
+    <div class="card rule-card">
+      <div class="card-label">The true rule</div>
+      <p class="rule-text">{{ item.ground_truth_short }}</p>
+    </div>
+
+    <div class="card guess-card">
+      <div class="card-label">The AI player's guess</div>
+      <p class="guess-text">{{ item.belief }}</p>
+    </div>
+
+    <div class="card q-card" id="q1">
+      <div class="q-title"><span class="q-num">Q1</span> How well does the guess capture the true rule?</div>
+      {{ scale('own_rating', likert7) }}
+      <div class="btn-row" style="margin-top:18px">
+        <button type="button" class="btn btn-primary" id="btn-lock" disabled>
+          Lock in my rating and show the AI judge's rating
+        </button>
+        <span class="hint" id="lock-hint">Pick a number first.</span>
+      </div>
+    </div>
+
+    <div class="card q-card judge-card hidden" id="judge">
+      <div class="card-label">The AI judge's rating</div>
+      <div class="judge-row">
+        <div class="judge-badge"><span class="judge-val">{{ item.judge_likert }}</span><span class="judge-of">/ 7</span></div>
+        <div class="judge-reason"><strong>Judge's reason:</strong> {{ item.judge_reason }}</div>
+      </div>
+      <div class="q-title" style="margin-top:20px"><span class="q-num">Q2</span> How much do you agree with the AI judge's rating?</div>
+      {{ scale('agree_rating', agree5) }}
+
+      <div class="field" style="margin-top:20px">
+        <label for="comment">Optional comment</label>
+        <textarea id="comment" name="comment" rows="2"
+          placeholder="Anything the judge missed, or anything unclear about the rule…"></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary" id="btn-submit">
+          {{ 'Finish' if k + 1 == n else 'Next item' }}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+(function () {
+  const t0 = performance.now();
+  const form = document.getElementById('rate-form');
+  const own = Array.from(form.querySelectorAll('input[name=own_rating]'));
+  const judge = document.getElementById('judge');
+  const btnLock = document.getElementById('btn-lock');
+  const lockHint = document.getElementById('lock-hint');
+  let locked = null;
+
+  const ms = () => Math.round(performance.now() - t0);
+  const ownValue = () => (own.find(r => r.checked) || {}).value || null;
+
+  own.forEach(r => r.addEventListener('change', () => {
+    if (locked !== null) {                      // rating is frozen after reveal
+      own.forEach(x => { x.checked = (x.value === locked); });
+      return;
+    }
+    if (!document.getElementById('ms_own').value) document.getElementById('ms_own').value = ms();
+    btnLock.disabled = false; lockHint.textContent = '';
+  }));
+
+  btnLock.addEventListener('click', () => {
+    const v = ownValue();
+    if (!v) return;
+    locked = v;
+    document.getElementById('ms_reveal').value = ms();
+    document.getElementById('q1').classList.add('locked');
+    btnLock.disabled = true;
+    btnLock.textContent = 'Your rating is locked in';
+    judge.classList.remove('hidden');
+    judge.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  form.addEventListener('submit', (e) => {
+    if (locked === null || !ownValue() || !form.querySelector('input[name=agree_rating]:checked')) {
+      e.preventDefault();
+      alert('Please answer both questions before continuing.');
+      return;
+    }
+    document.getElementById('ms_submit').value = ms();
+    document.getElementById('btn-submit').disabled = true;
+  });
+})();
+</script>
+</body>
+</html>

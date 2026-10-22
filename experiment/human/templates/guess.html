@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>normGym Study — Scenario {{ block + 1 }} · Your guess</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% from '_macros.html' import progress %}
+<div class="page">
+  {{ progress('main', block, total_blocks, 1) }}
+
+  <h1>What's the social norm?</h1>
+  <p class="subtitle">Before the test rounds, tell us what you think the norm was.</p>
+
+  <form method="POST" action="{{ url_for('guess', block=block) }}">
+    <div class="card">
+      <div class="field">
+        <label for="norm_guess">Your best guess of the social norm</label>
+        <textarea id="norm_guess" name="norm_guess" rows="4" required
+          placeholder="Describe the norm you think governed how you should move…"></textarea>
+      </div>
+      <div class="field">
+        <label for="confidence">How confident are you?
+          (<span id="conf-val">0</span> / 100)</label>
+        <input type="range" id="confidence" name="confidence" min="0" max="100" value="0"
+               step="1" style="width:100%"
+               oninput="document.getElementById('conf-val').textContent = this.value">
+        <div class="hint">0 = just guessing&nbsp;·&nbsp;100 = completely sure</div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button type="submit" class="btn btn-primary">Continue →</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>

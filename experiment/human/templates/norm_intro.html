@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>normGym Study — Scenario {{ block + 1 }} · Learning</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% from '_macros.html' import progress %}
+<div class="page">
+  {{ progress('main', block, total_blocks, 0) }}
+
+  <h1>Scenario {{ block + 1 }} of {{ total_blocks }} — Learning round</h1>
+  <p class="subtitle">Read this before you start playing.</p>
+
+  <div class="card accent">
+    <h2 style="margin-top:0">Your goal: infer the social norm while you play</h2>
+    <p>This round has a <strong>brand-new social norm</strong></p>
+    <p>You'll play <strong>one continuous learning round</strong>. Each time you
+    reach your goal and leave the café, a fresh character takes over and play
+    continues — so you get <strong>many attempts</strong> to experiment.</p>
+    <p>The round runs for a fixed number of steps and ends automatically.
+    You'll then be asked what you think the norm is, before moving on to the
+    test rounds.</p>
+  </div>
+
+  <div class="btn-row">
+    <a href="{{ next_url }}" class="btn btn-primary">Continue to the game →</a>
+  </div>
+</div>
+</body>
+</html>

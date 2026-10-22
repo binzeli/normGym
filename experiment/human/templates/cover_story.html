@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>normGym Study — The Story</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% from '_macros.html' import progress %}
+{% set S = url_for('static', filename='sprites/') %}
+<div class="page wide">
+  {{ progress('cover', 0, total_blocks) }}
+
+  <h1>Welcome to the Community</h1>
+  <p class="subtitle">Here's the story before you step inside.</p>
+
+  <div class="card">
+    <p>Imagine a <strong>virtual community</strong>. Three kinds of people live
+    there, and you can tell them apart by the colour of their shirt:</p>
+
+    <div class="legend" style="margin:16px 0 20px">
+      <div class="legend-row">
+        <div class="legend-icons"><img src="{{ S }}green.png" class="sprite"></div>
+        <div class="legend-text"><strong>Green-shirt people.</strong></div>
+      </div>
+      <div class="legend-row">
+        <div class="legend-icons"><img src="{{ S }}orange.png" class="sprite"></div>
+        <div class="legend-text"><strong>Orange-shirt people.</strong></div>
+      </div>
+      <div class="legend-row">
+        <div class="legend-icons"><img src="{{ S }}blue.png" class="sprite"></div>
+        <div class="legend-text"><strong>Blue-shirt people.</strong></div>
+      </div>
+    </div>
+
+    <p>The story happens in a {{ config.world_type|replace('_',' ') }} where people come to do everyday
+    things — order food at the counter, sit down to drink their coffee. But as they move around to get
+    these things done, they need to follow the community's <strong>social norms</strong>.</p>
+
+    <p>These are <strong>unspoken rules</strong> everyone follows. Some of them are
+    <strong>not norms from our real world</strong>, so don't assume the usual rules
+    apply here.</p>
+
+  </div>
+
+  <div class="card accent">
+    <h2 style="margin-top:0">Your task</h2>
+    <p style="margin:0">You'll control a character moving around the café. Whenever you violate a
+    <strong>social norm</strong> of this community, you'll receive a
+    <strong>punishment</strong> &mdash; so your job is to <strong>figure out the
+    norms</strong>. You have many lives, so you can keep trying.</p>
+  </div>
+
+  <div class="card accent">
+    <h2 style="margin-top:0">A glimpse of the café</h2>
+    <p class="hint" style="text-align:center">
+      This is just to give you a feel for the place &mdash; you're not expected to
+      work out any norms from it.
+    </p>
+    <video class="scene-img" style="width:100%;max-width:860px;border-radius:8px" controls autoplay muted loop playsinline
+           poster="{{ url_for('static', filename='setting_scene.png') }}">
+      <source src="{{ url_for('static', filename='videos/cover_story.mp4') }}" type="video/mp4">
+      Your browser can't play this video.
+    </video>
+  </div>
+
+  <div class="btn-row">
+    <a href="{{ next_url }}" class="btn btn-primary">Continue →</a>
+  </div>
+</div>
+</body>
+</html>

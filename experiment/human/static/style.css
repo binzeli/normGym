@@ -1,0 +1,398 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  background: #f5f4f0;
+  color: #2b2b2b;
+  min-height: 100vh;
+  line-height: 1.55;
+}
+
+/* ---------- Page-flow (content) pages ---------- */
+.page {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 48px 28px 80px;
+}
+.page.wide { max-width: 1200px; }
+.page h1 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+}
+.page .subtitle { color: #777; font-size: 0.95rem; margin-bottom: 28px; }
+.page h2 {
+  font-size: 1.15rem;
+  margin: 26px 0 10px;
+  color: #2b2b2b;
+}
+.page p { margin-bottom: 12px; }
+.page ul, .page ol { margin: 0 0 14px 22px; }
+.page li { margin-bottom: 6px; }
+
+.card {
+  background: #fff;
+  border: 1px solid #e2e0da;
+  border-radius: 10px;
+  padding: 22px 26px;
+  margin-bottom: 20px;
+}
+.card.accent { border-left: 4px solid #3a6ea5; }
+
+.norm-box {
+  background: #eef4f9;
+  border: 1px solid #c5d8e8;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 14px 0;
+  font-size: 0.98rem;
+}
+.norm-box .norm-name {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-weight: 600;
+  color: #2c5d86;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.progress {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 30px;
+  font-size: 0.78rem;
+  color: #999;
+  flex-wrap: wrap;
+}
+.progress .step { display: flex; align-items: center; gap: 6px; }
+.progress .step .dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: #d6d3cb;
+}
+.progress .step.active { color: #3a6ea5; font-weight: 600; }
+.progress .step.active .dot { background: #3a6ea5; }
+.progress .step.done .dot { background: #6aa57f; }
+.progress .arrow { color: #ccc; }
+
+.substep {
+  display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+  margin: -18px 0 26px; font-size: 0.74rem; color: #aaa;
+}
+.substep .sub.active { color: #3a6ea5; font-weight: 600; }
+.substep .sub.done { color: #6aa57f; }
+.substep .sub-arrow { color: #d6d3cb; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-block;
+  padding: 11px 26px;
+  border-radius: 7px;
+  border: 1px solid #c9c6bd;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+  text-decoration: none;
+  transition: background .12s, border-color .12s, opacity .12s;
+}
+.btn:hover { background: #f0eee9; }
+.btn:disabled, .btn.disabled { opacity: .4; cursor: not-allowed; pointer-events: none; }
+.btn-primary { background: #3a6ea5; border-color: #3a6ea5; color: #fff; }
+.btn-primary:hover { background: #335f8f; }
+/* Start round: green, so it reads as the thing to click first and stays
+   distinct from the blue "Continue →" next to it in the game header. */
+#btn-start { background: #2f8f4e; border-color: #2f8f4e; color: #fff; font-weight: 600; }
+#btn-start:hover { background: #277a43; border-color: #277a43; }
+.btn-row { display: flex; gap: 12px; align-items: center; margin-top: 26px; }
+
+/* Completion code on the thank-you page — the one thing that must be readable
+   and copyable at a glance. */
+.completion-code {
+  font-family: 'Courier New', ui-monospace, monospace;
+  font-size: 2rem; font-weight: 700; letter-spacing: 3px; color: #2c5d86;
+  margin: 0; user-select: all; word-break: break-all;
+}
+
+/* Milestone pages (study_start, test_intro) — full-page announcements between
+   stages, deliberately louder than an ordinary intro card. */
+.hero { text-align: center; padding: 40px 0 8px; }
+.hero-mark { font-size: 3.6rem; line-height: 1; margin-bottom: 14px; }
+.hero h1 { font-size: 2.5rem; line-height: 1.15; margin: 0 0 10px; }
+.hero .hero-lead {
+  font-size: 1.35rem; font-weight: 600; color: #2f8f4e; margin: 0 auto 28px;
+  max-width: 34ch;
+}
+.hero-rule {
+  width: 72px; height: 4px; border-radius: 2px; background: #2f8f4e;
+  margin: 0 auto 30px;
+}
+.hero-note { font-size: 1.05rem; line-height: 1.6; text-align: left; }
+.hero-note h2 { margin-top: 0; }
+.hero-note p { margin: 0 0 12px; }
+.hero-note p:last-child { margin-bottom: 0; }
+.hero .btn-row { justify-content: center; margin-top: 30px; }
+.hero .btn-primary { padding: 15px 40px; font-size: 1.1rem; }
+
+.field { margin-bottom: 16px; }
+.field label { display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 5px; color: #444; }
+.field input[type=text], .field input[type=number], .field select {
+  width: 100%; max-width: 320px;
+  padding: 9px 12px; border: 1px solid #c9c6bd; border-radius: 6px;
+  font-size: 0.95rem; font-family: inherit; background: #fff;
+}
+.field textarea {
+  width: 100%; box-sizing: border-box;
+  padding: 9px 12px; border: 1px solid #c9c6bd; border-radius: 6px;
+  font-size: 0.95rem; font-family: inherit; resize: vertical;
+}
+.field .checkrow { display: flex; align-items: flex-start; gap: 8px; font-weight: 400; }
+.field .checkrow input { margin-top: 4px; }
+.hint { font-size: 0.82rem; color: #999; margin-top: 4px; }
+.guess-error { font-size: 0.88rem; color: #c0392b; font-weight: 600; margin-top: 6px; }
+
+/* ---- Setting page: scene + sprite legend ---- */
+.card-cols { display: flex; gap: 18px; align-items: stretch; flex-wrap: wrap; }
+.card-cols > .card { margin-bottom: 0; }
+.card-cols > .card:first-child { flex: 2 1 480px; }
+.card-cols > .card:nth-child(2) { flex: 1 1 300px; max-width: 380px; }
+.card-cols > .card:first-child .scene-img { max-width: 100%; }
+.scene-img {
+  display: block; width: 100%; max-width: 620px; margin: 10px auto 4px;
+  border: 1px solid #ddd; border-radius: 8px;
+}
+.subpage-step {
+  text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.78rem;
+  font-weight: 700; color: #3a6ea5; margin: 0 0 10px;
+}
+/* Annotated scene: image + arrows + callout labels in one scalable SVG */
+.scene-annotated { width: 100%; overflow-x: auto; margin: 10px 0 4px; }
+.scene-svg { display: block; width: 100%; min-width: 720px; height: auto; }
+.callout {
+  display: flex; align-items: center; height: 100%;
+  font-size: 25px; line-height: 1.3; color: #444;
+}
+.callout-right { justify-content: flex-end; text-align: right; }
+.callout strong { color: #222; }
+.legend { display: flex; flex-direction: column; gap: 16px; }
+.legend-row { display: flex; align-items: center; gap: 16px; }
+.legend-icons {
+  flex: 0 0 130px; display: flex; align-items: center; justify-content: center;
+  gap: 6px; position: relative;
+}
+.legend-text { font-size: 0.92rem; color: #444; }
+.sprite {
+  width: 40px; height: 40px;
+  image-rendering: pixelated; image-rendering: crisp-edges;
+}
+.you-icon { position: relative; }
+.you-icon .star-overlay {
+  width: 22px; height: 22px; position: absolute; right: 44px; bottom: 2px;
+}
+.you-figure { display: flex; align-items: center; justify-content: center; }
+.you-combined {
+  height: 60px; width: auto;
+  image-rendering: pixelated; image-rendering: crisp-edges;
+}
+
+kbd {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 26px; height: 24px; padding: 0 6px;
+  background: #fff; border: 1px solid #c9c6bd; border-bottom-width: 2px;
+  border-radius: 4px; font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.8rem; color: #333;
+}
+.reward-amt { font-variant-numeric: tabular-nums; font-weight: 600; min-width: 42px; display: inline-block; }
+.reward-amt.pos { color: #2f8f4e; }
+.reward-amt.neg { color: #c0392b; }
+.reward-amt.step { color: #9a7d1a; }
+
+/* =====================================================================
+   GAME PAGE (examples / practice / experiment)
+   ===================================================================== */
+.game-body { display: flex; flex-direction: column; height: 100vh; }
+.game-progress {
+  background: #fbfaf7; border-bottom: 1px solid #e2e0da;
+  padding: 9px 18px 4px;
+}
+.game-progress .progress, .game-progress .substep { margin: 0; }
+.game-page { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.game-header {
+  background: #fbfaf7; border-bottom: 1px solid #e2e0da;
+  padding: 10px 22px; display: flex; align-items: center; gap: 16px;
+}
+.game-header h1 { font-size: 1.05rem; font-weight: 600; }
+.game-subtitle { font-size: 0.8rem; color: #888; margin-top: 1px; }
+.game-header .phase-pill {
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: .04em;
+  background: #3a6ea5; color: #fff; padding: 3px 10px; border-radius: 20px;
+}
+.game-header .spacer { flex: 1; }
+
+.main { display: flex; flex: 1; overflow: hidden; }
+
+.sidebar, .rightbar {
+  flex: 0 0 250px; width: 250px; background: #fbfaf7;
+  display: flex; flex-direction: column; padding: 18px; gap: 18px; overflow-y: auto;
+}
+.sidebar { border-right: 1px solid #e2e0da; }
+.rightbar { border-left: 1px solid #e2e0da; }
+.sidebar h2, .rightbar h2 {
+  font-size: 0.78rem; font-weight: 600; color: #555;
+  padding-bottom: 6px; border-bottom: 1px solid #e2e0da; margin-bottom: 8px;
+}
+.guide { display: flex; flex-direction: column; gap: 7px; font-size: 1rem; }
+.guide-row { display: flex; align-items: center; gap: 10px; }
+.guide-row .desc { color: #555; }
+
+.violation-count { display: flex; align-items: baseline; gap: 8px; }
+#violation-total { font-size: 2rem; font-weight: 700; color: #c0392b; font-variant-numeric: tabular-nums; }
+.violation-count-label { font-size: 0.8rem; color: #888; }
+.violation-log { display: flex; flex-direction: column; gap: 4px; font-size: 0.82rem; }
+.violation-empty { color: #999; font-style: italic; }
+.violation-item {
+  display: flex; justify-content: space-between; padding: 6px 8px;
+  background: #fbeaea; border: 1px solid #e2a9a9; border-radius: 5px; color: #a5302b;
+}
+.violation-item .v-idx { color: #c08a87; font-weight: 600; }
+
+.stat-row { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 3px 0; }
+.stat-row .val { font-variant-numeric: tabular-nums; font-weight: 600; }
+
+.game-area {
+  flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center;
+  justify-content: flex-start; padding: 22px; gap: 14px; overflow: hidden; position: relative;
+}
+.frame-wrapper {
+  position: relative; flex: 1 1 0; min-height: 0; max-width: 100%;
+  display: flex; align-items: center; justify-content: center;
+}
+#game-frame {
+  display: block; max-width: 100%; max-height: 100%; object-fit: contain;
+  border: 1px solid #ddd; border-radius: 8px; background: #fff;
+}
+#frame-placeholder {
+  width: 640px; height: 480px; max-width: 100%; max-height: 100%; background: #efeee9;
+  border: 1px solid #ddd; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 1rem;
+}
+
+.replay-bar { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; max-width: 640px; padding: 4px; }
+.replay-toggle { padding: 7px 18px; font-size: 0.85rem; flex: 0 0 auto; }
+.replay-hint { font-size: 0.8rem; color: #777; text-align: left; }
+.timeline-bar { display: flex; align-items: center; gap: 12px; width: 100%; max-width: 640px; padding: 4px; }
+.timeline-btn {
+  flex: 0 0 auto; width: 30px; height: 28px; border: 1px solid #c9c6bd;
+  background: #fff; border-radius: 5px; cursor: pointer; font-size: 0.85rem; color: #444;
+}
+.timeline-btn:hover { background: #f0eee9; }
+.timeline-btn:disabled { opacity: .4; cursor: not-allowed; }
+.timeline-btn.live { background: #3a6ea5; border-color: #3a6ea5; color: #fff; }
+#timeline { flex: 1; accent-color: #3a6ea5; cursor: pointer; }
+#timeline:disabled { cursor: not-allowed; }
+#timeline-label { flex: 0 0 auto; font-size: 0.78rem; color: #777; font-variant-numeric: tabular-nums; min-width: 56px; text-align: right; }
+
+#status-bar { font-size: 0.9rem; color: #777; text-align: center; min-height: 1.2em; }
+#status-bar.waiting { color: #2f8f4e; font-weight: 600; }
+#status-bar.thinking { color: #9a7d1a; }
+#status-bar.gameover { color: #c0392b; font-weight: 600; }
+
+/* Board badge: norm violations so far this round. Green at zero, red once the
+   participant has violated at least once. */
+#violation-badge {
+  position: absolute; top: 12px; right: 12px; z-index: 5;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  font-family: 'Courier New', ui-monospace, monospace;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: #4ade80;
+  background: linear-gradient(180deg, #1c2541 0%, #0b132b 100%);
+  border: 2px solid #4ade80; border-radius: 10px;
+  padding: 6px 16px; white-space: nowrap;
+  box-shadow: 0 0 0 2px #0b132b, 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+#violation-badge-value {
+  font-size: 1.8rem; font-weight: 900; line-height: 1; letter-spacing: 1px;
+  font-variant-numeric: tabular-nums; color: #4ade80;
+  text-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
+}
+#violation-badge.hit { color: #f87171; border-color: #f87171; }
+#violation-badge.hit #violation-badge-value {
+  color: #f87171; text-shadow: 0 0 8px rgba(248, 113, 113, 0.6);
+}
+
+#target-banner {
+  display: none; background: #eef4ec; border: 1px solid #b6d4be; border-radius: 6px;
+  padding: 10px 14px; font-size: 1rem; font-weight: 600; color: #2f6b42; text-align: left;
+  white-space: pre-line; line-height: 1.5;
+}
+#target-banner.show { display: block; }
+
+.task-hint {
+  margin: 10px 0 0; padding: 8px 12px; font-size: 0.85rem; line-height: 1.45;
+  color: #6b5a1a; background: #fbf6e3; border: 1px solid #e6d9a8;
+  border-radius: 6px; text-align: left;
+}
+.task-hint kbd {
+  font-size: 0.78rem; padding: 1px 6px; border-radius: 4px;
+  border: 1px solid #c9b869; background: #fff; color: #6b5a1a;
+}
+
+/* violation banner — in-flow, above the board, so it never hides the step
+   that caused the violation. While it is shown the round is paused and the
+   controls below are locked (see .violation-lock). */
+#violation-modal { display: none; width: 100%; max-width: 640px; flex: 0 0 auto; }
+#violation-modal.show { display: block; }
+.modal-card {
+  background: #fff; border: 1px solid #e2a9a9; border-left: 5px solid #c0392b;
+  border-radius: 10px; padding: 12px 16px; text-align: left;
+  display: flex; align-items: center; gap: 16px;
+  box-shadow: 0 3px 12px rgba(192,57,43,.18);
+}
+.modal-card .modal-text { flex: 1; min-width: 0; }
+.modal-card h2 { font-size: 1.05rem; color: #c0392b; margin: 0 0 3px; }
+.modal-card p { font-size: 0.9rem; color: #555; margin: 0; }
+.modal-card .btn { flex: 0 0 auto; }
+
+/* Tip banner — same slot above the board, amber instead of red. */
+#tip-modal { display: none; width: 100%; max-width: 640px; flex: 0 0 auto; }
+#tip-modal.show { display: block; }
+.modal-card.tip-card {
+  border-color: #e6d9a8; border-left-color: #d4a72c;
+  box-shadow: 0 3px 12px rgba(212,167,44,.18);
+}
+.modal-card.tip-card h2 { color: #8a6d1a; }
+.modal-card.tip-card kbd {
+  font-size: 0.78rem; padding: 1px 6px; border-radius: 4px;
+  border: 1px solid #c9b869; background: #fbf6e3; color: #6b5a1a;
+}
+
+/* Mid-round check-in — a real modal over the board, since play is paused and
+   the participant is writing rather than reading the game. */
+#guess-modal {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45);
+  z-index: 60; align-items: center; justify-content: center; padding: 20px;
+}
+#guess-modal.show { display: flex; }
+.guess-card {
+  background: #fff; border: 1px solid #d9dee3; border-top: 4px solid #3a6ea5;
+  border-radius: 10px; padding: 24px 28px; width: 100%; max-width: 520px;
+  max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0,0,0,.25);
+}
+.guess-card h2 { font-size: 1.25rem; color: #2c5d86; margin: 0 0 6px; }
+.guess-card .guess-sub { font-size: 0.9rem; color: #666; margin: 0 0 18px; line-height: 1.5; }
+.guess-card .btn-row { margin-top: 18px; }
+
+/* Everything except the banner's own button is inert while a banner is up. */
+body.violation-lock .replay-bar,
+body.violation-lock .timeline-bar { opacity: .4; pointer-events: none; }
+body.violation-lock .game-header .btn { pointer-events: none; }
+
+/* finished overlay on the game frame */
+#finished-overlay {
+  display: none; position: absolute; inset: 0; background: rgba(255,255,255,.94);
+  flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 20px;
+}
+#finished-overlay.show { display: flex; }
+#finished-overlay h2 { font-size: 1.6rem; color: #1a1a1a; }
+#finished-overlay p { font-size: 0.95rem; color: #555; text-align: center; }

@@ -1,0 +1,38 @@
+{# Two-level progress indicator for the flow:
+   Welcome → Setting → Tutorial → Quiz → Practice → Scenario 1..N → Done
+   stage: 'welcome'|'cover'|'setting'|'quiz'|'practice'|'main'|'done'
+   ('cover' = the narrative Setting page; 'setting' = the Tutorial page)
+   block: 0-indexed current norm (only meaningful when stage == 'main')
+   episode: 0=Learning (internally 'interactive'), 1..3=Test trials
+   (only meaningful when stage == 'main') #}
+{% macro progress(stage, block=0, total_blocks=3, episode=0) %}
+{% set intro = ['welcome', 'cover', 'setting', 'quiz', 'practice'] %}
+{% set offset = intro|length %}
+{% if stage in intro %}{% set cur = intro.index(stage) %}
+{% elif stage == 'main' %}{% set cur = offset + block %}
+{% else %}{% set cur = offset + total_blocks %}{% endif %}
+<div class="progress">
+  {% set tops = [('Welcome', 0), ('Setting', 1), ('Tutorial', 2), ('Quiz', 3), ('Practice', 4)] %}
+  {% for label, pos in tops %}
+    {% if not loop.first %}<span class="arrow">›</span>{% endif %}
+    <span class="step {{ 'active' if cur == pos else ('done' if cur > pos else '') }}"><span class="dot"></span>{{ label }}</span>
+  {% endfor %}
+  {% for b in range(total_blocks) %}
+    <span class="arrow">›</span>
+    <span class="step {{ 'active' if cur == (offset + b) else ('done' if cur > (offset + b) else '') }}"><span class="dot"></span>Scenario {{ b + 1 }}</span>
+  {% endfor %}
+  <span class="arrow">›</span>
+  <span class="step {{ 'active' if stage == 'done' else '' }}"><span class="dot"></span>Done</span>
+</div>
+{% if stage == 'main' %}
+{# One learning round + two tests per norm: test 1 in the same place, test 2 in
+   a new one (see EPISODES_PER_NORM in app.py). #}
+{% set eps = ['Learning', 'Test 1', 'Test 2 · new place'] %}
+<div class="substep">
+  {% for e in eps %}
+    <span class="sub {{ 'active' if loop.index0 == episode else ('done' if loop.index0 < episode else '') }}">{{ e }}</span>
+    {% if not loop.last %}<span class="sub-arrow">▸</span>{% endif %}
+  {% endfor %}
+</div>
+{% endif %}
+{% endmacro %}

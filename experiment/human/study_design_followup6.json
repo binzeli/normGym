@@ -1,0 +1,42 @@
+{
+ "_comment": "Hand-made follow-up design (2026-09-20): 6 participants x 2 norms over the 8 norms of the 25-norm set that no participant had kept in BOTH tests by then. The two norms with no violation-free test at all (occupation_seat_in_order, movement_move2_wait1) get 3 plays each, the other six 1 each; every slot pairs an allocation norm with a queue or trajectory norm. Not a balanced cycle (balanced_positions=false). Serve with DESIGN=experiment/human/study_design_followup6.json ./experiment/human/run_study.sh",
+ "tutorial_norm": "straight_line",
+ "blocks": 2,
+ "balanced_positions": false,
+ "categories": {
+  "lshape_right_line": "queue",
+  "movement_move2_wait1": "trajectory",
+  "movement_no_turn_mod3_1": "trajectory",
+  "occupation_door_class_specific": "allocation",
+  "occupation_door_class_specific_BCA": "allocation",
+  "occupation_region_capacity_2": "allocation",
+  "occupation_seat_in_order": "allocation",
+  "zigzag_right1_line": "queue"
+ },
+ "schedule": [
+  [
+   "occupation_seat_in_order",
+   "movement_move2_wait1"
+  ],
+  [
+   "movement_move2_wait1",
+   "occupation_seat_in_order"
+  ],
+  [
+   "occupation_seat_in_order",
+   "movement_no_turn_mod3_1"
+  ],
+  [
+   "occupation_door_class_specific",
+   "movement_move2_wait1"
+  ],
+  [
+   "lshape_right_line",
+   "occupation_door_class_specific_BCA"
+  ],
+  [
+   "zigzag_right1_line",
+   "occupation_region_capacity_2"
+  ]
+ ]
+}

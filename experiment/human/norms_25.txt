@@ -1,0 +1,43 @@
+# The 25-norm validation set for the human study (half of each category), chosen
+# 2026-09-16 from the first 50-norm wave: every norm where at least one
+# participant kept the norm in both tests, plus the closest near-misses and
+# one unplayed norm per missing subfamily. Used by make_study_design.py
+# --norms_file to build study_design_25.json. The build pins the norms with the
+# least first-wave data to the earliest slots (--front: the two never played,
+# then the six with a single finished play):
+#   python experiment/human/make_study_design.py --norms_file experiment/human/norms_25.txt \
+#       --out experiment/human/study_design_25.json \
+#       --front staircase_left_line occupation_seat_in_order occupation_door_all_exit_C lshape_right_line occupation_seat_no_bottom_right movement_clockwise_move xcell_forbidden movement_no_turn_mod3_1
+
+# queue (8 of 16)
+edge_left_line
+edge_right_line
+square_right_line
+zigzag_right2_line
+bend_right2_line
+lshape_right_line
+zigzag_right1_line
+staircase_left_line
+
+# region (6 of 12)
+occupation_door_all_exit_A
+occupation_door_all_exit_C
+occupation_seat_bottom_left_only
+occupation_seat_bottom_right_only
+occupation_seat_no_bottom_right
+xcell_forbidden
+
+# trajectory (5 of 11)
+movement_move1_wait1
+movement_no_odd_turn
+movement_clockwise_move
+movement_no_turn_mod3_1
+movement_move2_wait1
+
+# allocation (6 of 11)
+occupation_region_single_class_only
+occupation_region_capacity_2
+occupation_door_class_specific
+occupation_door_class_specific_BCA
+occupation_seat_class_specific_rot1
+occupation_seat_in_order

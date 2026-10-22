@@ -1,0 +1,254 @@
+{
+  "norms": [
+    {
+      "norm_id": "norm_001",
+      "name": "zigzag_right2_line",
+      "description": "Agents waiting for the counter must line up along a fixed path of cells. This path must be followed whether or not anyone else is already in line: an agent approaching the counter walks to the last free cell of the path, then advances one cell at a time only after the agent ahead has moved forward, until it reaches the head of the path and is served. An agent may only move forward one position in the line once the cell ahead is completely empty. Stepping off the path, waiting near the counter on a cell that is not on the path, or cutting ahead is a violation (the only exception is when every path cell is already occupied). The path starts at the cell directly in front of the counter (below it when the counter is on the top wall; beside it when the counter is on a side wall). Directions are from the point of view of someone standing in line facing the counter: 'away' = one step further from the counter, 'right'/'left' = that person's right/left. With the counter on the top wall: away = down, right = screen-right, left = screen-left. Shape (zigzag, right first, 2 wide): from the start cell go 2 right, then 1 away, then 2 left, then 1 away, then 2 right, and so on — a snake that always moves away from the counter. Example, in the cafe (counter at (1,6), start cell (2,6)): the path is (2,6) → (2,7) → (2,8) → (3,8) → (3,7) → (3,6) → (4,6) → (4,7) → ..."
+    },
+    {
+      "norm_id": "norm_002",
+      "name": "zigzag_left1_line",
+      "description": "Agents waiting for the counter must line up along a fixed path of cells. This path must be followed whether or not anyone else is already in line: an agent approaching the counter walks to the last free cell of the path, then advances one cell at a time only after the agent ahead has moved forward, until it reaches the head of the path and is served. An agent may only move forward one position in the line once the cell ahead is completely empty. Stepping off the path, waiting near the counter on a cell that is not on the path, or cutting ahead is a violation (the only exception is when every path cell is already occupied). The path starts at the cell directly in front of the counter (below it when the counter is on the top wall; beside it when the counter is on a side wall). Directions are from the point of view of someone standing in line facing the counter: 'away' = one step further from the counter, 'right'/'left' = that person's right/left. With the counter on the top wall: away = down, right = screen-right, left = screen-left. Shape (zigzag, left first, 1 wide): from the start cell go 1 left, then 1 away, then 1 right, then 1 away, then 1 left, and so on — a tight zigzag that always moves away from the counter. Example, in the cafe (counter at (1,6), start cell (2,6)): the path is (2,6) → (2,5) → (3,5) → (3,6) → (4,6) → (4,5) → (5,5) → (5,6) → ..."
+    },
+    {
+      "norm_id": "norm_003",
+      "name": "bend_right1_line",
+      "description": "Agents waiting for the counter must line up along a fixed path of cells. This path must be followed whether or not anyone else is already in line: an agent approaching the counter walks to the last free cell of the path, then advances one cell at a time only after the agent ahead has moved forward, until it reaches the head of the path and is served. An agent may only move forward one position in the line once the cell ahead is completely empty. Stepping off the path, waiting near the counter on a cell that is not on the path, or cutting ahead is a violation (the only exception is when every path cell is already occupied). The path starts at the cell directly in front of the counter (below it when the counter is on the top wall; beside it when the counter is on a side wall). Directions are from the point of view of someone standing in line facing the counter: 'away' = one step further from the counter, 'right'/'left' = that person's right/left. With the counter on the top wall: away = down, right = screen-right, left = screen-left. Shape (one bend, right 1): from the start cell go 1 right, then straight away from the counter for the rest of the line. Example, in the cafe (counter at (1,6), start cell (2,6)): the path is (2,6) → (2,7) → (3,7) → (4,7) → (5,7) → ..."
+    },
+    {
+      "norm_id": "norm_004",
+      "name": "bend_left2_line",
+      "description": "Agents waiting for the counter must line up along a fixed path of cells. This path must be followed whether or not anyone else is already in line: an agent approaching the counter walks to the last free cell of the path, then advances one cell at a time only after the agent ahead has moved forward, until it reaches the head of the path and is served. An agent may only move forward one position in the line once the cell ahead is completely empty. Stepping off the path, waiting near the counter on a cell that is not on the path, or cutting ahead is a violation (the only exception is when every path cell is already occupied). The path starts at the cell directly in front of the counter (below it when the counter is on the top wall; beside it when the counter is on a side wall). Directions are from the point of view of someone standing in line facing the counter: 'away' = one step further from the counter, 'right'/'left' = that person's right/left. With the counter on the top wall: away = down, right = screen-right, left = screen-left. Shape (one bend, left 2): from the start cell go 2 left, then straight away from the counter for the rest of the line. Example, in the cafe (counter at (1,6), start cell (2,6)): the path is (2,6) → (2,5) → (2,4) → (3,4) → (4,4) → (5,4) → ..."
+    },
+    {
+      "norm_id": "norm_005",
+      "name": "edge_left_line",
+      "description": "Agents waiting for the counter must line up along a fixed path of cells. This path must be followed whether or not anyone else is already in line: an agent approaching the counter walks to the last free cell of the path, then advances one cell at a time only after the agent ahead has moved forward, until it reaches the head of the path and is served. An agent may only move forward one position in the line once the cell ahead is completely empty. Stepping off the path, waiting near the counter on a cell that is not on the path, or cutting ahead is a violation (the only exception is when every path cell is already occupied). Directions are from the point of view of someone standing in line facing the counter. Unlike the other line norms, this path does not start in front of the counter: it starts at the cell right beside the counter, one step to the left (from the point of view of someone facing the counter), so the head of the line stands against the wall. From there the path runs along the wall, away from the counter, over walkable cells (skipping dead ends), and stops once it is 4 cells from the counter. Example, in the cafe (counter at (1,6)): the path is (1,5) → (1,4) → (1,3) → (1,2) → (2,2) → (3,2) → (3,1) → (4,1)."
+    },
+    {
+      "norm_id": "norm_006",
+      "name": "zigzag_right1_line",
+      "description": "Agents waiting for the counter must line up along a fixed path of cells. This path must be followed whether or not anyone else is already in line: an agent approaching the counter walks to the last free cell of the path, then advances one cell at a time only after the agent ahead has moved forward, until it reaches the head of the path and is served. An agent may only move forward one position in the line once the cell ahead is completely empty. Stepping off the path, waiting near the counter on a cell that is not on the path, or cutting ahead is a violation (the only exception is when every path cell is already occupied). The path starts at the cell directly in front of the counter (below it when the counter is on the top wall; beside it when the counter is on a side wall). Directions are from the point of view of someone standing in line facing the counter: 'away' = one step further from the counter, 'right'/'left' = that person's right/left. With the counter on the top wall: away = down, right = screen-right, left = screen-left. Shape (zigzag, right first, 1 wide): from the start cell go 1 right, then 1 away, then 1 left, then 1 away, then 1 right, and so on — a tight zigzag that always moves away from the counter. Example, in the cafe (counter at (1,6), start cell (2,6)): the path is (2,6) → (2,7) → (3,7) → (3,6) → (4,6) → (4,7) → (5,7) → (5,6) → ..."
+    },
+    {
+      "norm_id": "norm_007",
+      "name": "zigzag_left2_line",
+      "description": "Agents waiting for the counter must line up along a fixed path of cells. This path must be followed whether or not anyone else is already in line: an agent approaching the counter walks to the last free cell of the path, then advances one cell at a time only after the agent ahead has moved forward, until it reaches the head of the path and is served. An agent may only move forward one position in the line once the cell ahead is completely empty. Stepping off the path, waiting near the counter on a cell that is not on the path, or cutting ahead is a violation (the only exception is when every path cell is already occupied). The path starts at the cell directly in front of the counter (below it when the counter is on the top wall; beside it when the counter is on a side wall). Directions are from the point of view of someone standing in line facing the counter: 'away' = one step further from the counter, 'right'/'left' = that person's right/left. With the counter on the top wall: away = down, right = screen-right, left = screen-left. Shape (zigzag, left first, 2 wide): from the start cell go 2 left, then 1 away, then 2 right, then 1 away, then 2 left, and so on — a snake that always moves away from the counter. Example, in the cafe (counter at (1,6), start cell (2,6)): the path is (2,6) → (2,5) → (2,4) → (3,4) → (3,5) → (3,6) → (4,6) → (4,5) → ..."
+    },
+    {
+      "norm_id": "norm_008",
+      "name": "bend_left1_line",
+      "description": "Agents waiting for the counter must line up along a fixed path of cells. This path must be followed whether or not anyone else is already in line: an agent approaching the counter walks to the last free cell of the path, then advances one cell at a time only after the agent ahead has moved forward, until it reaches the head of the path and is served. An agent may only move forward one position in the line once the cell ahead is completely empty. Stepping off the path, waiting near the counter on a cell that is not on the path, or cutting ahead is a violation (the only exception is when every path cell is already occupied). The path starts at the cell directly in front of the counter (below it when the counter is on the top wall; beside it when the counter is on a side wall). Directions are from the point of view of someone standing in line facing the counter: 'away' = one step further from the counter, 'right'/'left' = that person's right/left. With the counter on the top wall: away = down, right = screen-right, left = screen-left. Shape (one bend, left 1): from the start cell go 1 left, then straight away from the counter for the rest of the line. Example, in the cafe (counter at (1,6), start cell (2,6)): the path is (2,6) → (2,5) → (3,5) → (4,5) → (5,5) → ..."
+    },
+    {
+      "norm_id": "norm_009",
+      "name": "bend_right2_line",
+      "description": "Agents waiting for the counter must line up along a fixed path of cells. This path must be followed whether or not anyone else is already in line: an agent approaching the counter walks to the last free cell of the path, then advances one cell at a time only after the agent ahead has moved forward, until it reaches the head of the path and is served. An agent may only move forward one position in the line once the cell ahead is completely empty. Stepping off the path, waiting near the counter on a cell that is not on the path, or cutting ahead is a violation (the only exception is when every path cell is already occupied). The path starts at the cell directly in front of the counter (below it when the counter is on the top wall; beside it when the counter is on a side wall). Directions are from the point of view of someone standing in line facing the counter: 'away' = one step further from the counter, 'right'/'left' = that person's right/left. With the counter on the top wall: away = down, right = screen-right, left = screen-left. Shape (one bend, right 2): from the start cell go 2 right, then straight away from the counter for the rest of the line. Example, in the cafe (counter at (1,6), start cell (2,6)): the path is (2,6) → (2,7) → (2,8) → (3,8) → (4,8) → (5,8) → ..."
+    },
+    {
+      "norm_id": "norm_010",
+      "name": "edge_right_line",
+      "description": "Agents waiting for the counter must line up along a fixed path of cells. This path must be followed whether or not anyone else is already in line: an agent approaching the counter walks to the last free cell of the path, then advances one cell at a time only after the agent ahead has moved forward, until it reaches the head of the path and is served. An agent may only move forward one position in the line once the cell ahead is completely empty. Stepping off the path, waiting near the counter on a cell that is not on the path, or cutting ahead is a violation (the only exception is when every path cell is already occupied). Directions are from the point of view of someone standing in line facing the counter. Unlike the other line norms, this path does not start in front of the counter: it starts at the cell right beside the counter, one step to the right (from the point of view of someone facing the counter), so the head of the line stands against the wall. From there the path runs along the wall, away from the counter, over walkable cells (skipping dead ends), and stops once it is 4 cells from the counter. Example, in the cafe (counter at (1,6)): the path is (1,7) → (1,8) → (1,9) → (1,10) → (1,11) → (2,11) → (3,11) → (4,11) → (4,12) → (4,13)."
+    },
+    {
+      "norm_id": "norm_011",
+      "name": "square_right_line",
+      "description": "Agents waiting for the counter must line up along a fixed path of cells. This path must be followed whether or not anyone else is already in line: an agent approaching the counter walks to the last free cell of the path, then advances one cell at a time only after the agent ahead has moved forward, until it reaches the head of the path and is served. An agent may only move forward one position in the line once the cell ahead is completely empty. Stepping off the path, waiting near the counter on a cell that is not on the path, or cutting ahead is a violation (the only exception is when every path cell is already occupied). The path starts at the cell directly in front of the counter (below it when the counter is on the top wall; beside it when the counter is on a side wall). Directions are from the point of view of someone standing in line facing the counter: 'away' = one step further from the counter, 'right'/'left' = that person's right/left. With the counter on the top wall: away = down, right = screen-right, left = screen-left. Shape (square, right): a fixed loop of exactly 7 cells — from the start cell go 1 right, 2 away, 2 left, then 1 toward the counter, ending one cell left-and-away of the start. The line never extends beyond these 7 cells. Example, in the cafe (counter at (1,6), start cell (2,6)): the path is (2,6) → (2,7) → (3,7) → (4,7) → (4,6) → (4,5) → (3,5)."
+    },
+    {
+      "norm_id": "norm_012",
+      "name": "square_left_line",
+      "description": "Agents waiting for the counter must line up along a fixed path of cells. This path must be followed whether or not anyone else is already in line: an agent approaching the counter walks to the last free cell of the path, then advances one cell at a time only after the agent ahead has moved forward, until it reaches the head of the path and is served. An agent may only move forward one position in the line once the cell ahead is completely empty. Stepping off the path, waiting near the counter on a cell that is not on the path, or cutting ahead is a violation (the only exception is when every path cell is already occupied). The path starts at the cell directly in front of the counter (below it when the counter is on the top wall; beside it when the counter is on a side wall). Directions are from the point of view of someone standing in line facing the counter: 'away' = one step further from the counter, 'right'/'left' = that person's right/left. With the counter on the top wall: away = down, right = screen-right, left = screen-left. Shape (square, left): a fixed loop of exactly 7 cells — from the start cell go 1 left, 2 away, 2 right, then 1 toward the counter, ending one cell right-and-away of the start. The line never extends beyond these 7 cells. Example, in the cafe (counter at (1,6), start cell (2,6)): the path is (2,6) → (2,5) → (3,5) → (4,5) → (4,6) → (4,7) → (3,7)."
+    },
+    {
+      "norm_id": "norm_013",
+      "name": "staircase_right_line",
+      "description": "Agents waiting for the counter must line up along a fixed path of cells. This path must be followed whether or not anyone else is already in line: an agent approaching the counter walks to the last free cell of the path, then advances one cell at a time only after the agent ahead has moved forward, until it reaches the head of the path and is served. An agent may only move forward one position in the line once the cell ahead is completely empty. Stepping off the path, waiting near the counter on a cell that is not on the path, or cutting ahead is a violation (the only exception is when every path cell is already occupied). The path starts at the cell directly in front of the counter (below it when the counter is on the top wall; beside it when the counter is on a side wall). Directions are from the point of view of someone standing in line facing the counter: 'away' = one step further from the counter, 'right'/'left' = that person's right/left. With the counter on the top wall: away = down, right = screen-right, left = screen-left. Shape (staircase, right): from the start cell go 1 right, 1 away, 1 right, 1 away (two stair steps), then straight away from the counter for the rest of the line. Example, in the cafe (counter at (1,6), start cell (2,6)): the path is (2,6) → (2,7) → (3,7) → (3,8) → (4,8) → (5,8) → ..."
+    },
+    {
+      "norm_id": "norm_014",
+      "name": "staircase_left_line",
+      "description": "Agents waiting for the counter must line up along a fixed path of cells. This path must be followed whether or not anyone else is already in line: an agent approaching the counter walks to the last free cell of the path, then advances one cell at a time only after the agent ahead has moved forward, until it reaches the head of the path and is served. An agent may only move forward one position in the line once the cell ahead is completely empty. Stepping off the path, waiting near the counter on a cell that is not on the path, or cutting ahead is a violation (the only exception is when every path cell is already occupied). The path starts at the cell directly in front of the counter (below it when the counter is on the top wall; beside it when the counter is on a side wall). Directions are from the point of view of someone standing in line facing the counter: 'away' = one step further from the counter, 'right'/'left' = that person's right/left. With the counter on the top wall: away = down, right = screen-right, left = screen-left. Shape (staircase, left): from the start cell go 1 left, 1 away, 1 left, 1 away (two stair steps), then straight away from the counter for the rest of the line. Example, in the cafe (counter at (1,6), start cell (2,6)): the path is (2,6) → (2,5) → (3,5) → (3,4) → (4,4) → (5,4) → ..."
+    },
+    {
+      "norm_id": "norm_015",
+      "name": "lshape_right_line",
+      "description": "Agents waiting for the counter must line up along a fixed path of cells. This path must be followed whether or not anyone else is already in line: an agent approaching the counter walks to the last free cell of the path, then advances one cell at a time only after the agent ahead has moved forward, until it reaches the head of the path and is served. An agent may only move forward one position in the line once the cell ahead is completely empty. Stepping off the path, waiting near the counter on a cell that is not on the path, or cutting ahead is a violation (the only exception is when every path cell is already occupied). The path starts at the cell directly in front of the counter (below it when the counter is on the top wall; beside it when the counter is on a side wall). Directions are from the point of view of someone standing in line facing the counter: 'away' = one step further from the counter, 'right'/'left' = that person's right/left. With the counter on the top wall: away = down, right = screen-right, left = screen-left. Shape (L, right): from the start cell go 2 away, then 2 right, then straight away from the counter for the rest of the line. Example, in the cafe (counter at (1,6), start cell (2,6)): the path is (2,6) → (3,6) → (4,6) → (4,7) → (4,8) → (5,8) → ..."
+    },
+    {
+      "norm_id": "norm_016",
+      "name": "lshape_left_line",
+      "description": "Agents waiting for the counter must line up along a fixed path of cells. This path must be followed whether or not anyone else is already in line: an agent approaching the counter walks to the last free cell of the path, then advances one cell at a time only after the agent ahead has moved forward, until it reaches the head of the path and is served. An agent may only move forward one position in the line once the cell ahead is completely empty. Stepping off the path, waiting near the counter on a cell that is not on the path, or cutting ahead is a violation (the only exception is when every path cell is already occupied). The path starts at the cell directly in front of the counter (below it when the counter is on the top wall; beside it when the counter is on a side wall). Directions are from the point of view of someone standing in line facing the counter: 'away' = one step further from the counter, 'right'/'left' = that person's right/left. With the counter on the top wall: away = down, right = screen-right, left = screen-left. Shape (L, left): from the start cell go 2 away, then 2 left, then straight away from the counter for the rest of the line. Example, in the cafe (counter at (1,6), start cell (2,6)): the path is (2,6) → (3,6) → (4,6) → (4,5) → (4,4) → (5,4) → ..."
+    },
+    {
+      "norm_id": "norm_017",
+      "name": "movement_clockwise_move",
+      "description": "Agents must circulate through the environment in a clockwise direction, and they must do so along the walls: all movement has to stay on the outermost ring of walkable cells that hugs the edge of the map (the cells right next to the surrounding walls), never cutting through the interior of the space. Following this ring clockwise means moving right along the top wall, down along the right wall, left along the bottom wall, and up along the left wall. Each move must be to the next cell along the ring in that direction; agents must not move counterclockwise, and must not leave the ring except to step onto it from a door or to take the final step onto their goal cell."
+    },
+    {
+      "norm_id": "norm_018",
+      "name": "movement_counterclockwise_move",
+      "description": "Agents must circulate through the environment in a counterclockwise direction, and they must do so along the walls: all movement has to stay on the outermost ring of walkable cells that hugs the edge of the map (the cells right next to the surrounding walls), never cutting through the interior of the space. Following this ring counterclockwise means moving left along the top wall, down along the left wall, right along the bottom wall, and up along the right wall. Each move must be to the next cell along the ring in that direction; agents must not move clockwise, and must not leave the ring except to step onto it from a door or to take the final step onto their goal cell."
+    },
+    {
+      "norm_id": "norm_019",
+      "name": "movement_no_odd_turn",
+      "description": "Agents may only move on even-numbered turns (turn 2, 4, 6, …). On every odd-numbered turn (turn 1, 3, 5, …), no agent is permitted to move; all agents must remain stationary for that turn."
+    },
+    {
+      "norm_id": "norm_020",
+      "name": "movement_no_even_turn",
+      "description": "Agents may only move on odd-numbered turns (turn 1, 3, 5, …). On every even-numbered turn (turn 2, 4, 6, …), no agent is permitted to move; all agents must remain stationary for that turn."
+    },
+    {
+      "norm_id": "norm_021",
+      "name": "movement_no_turn_mod3_0",
+      "description": "Agents may not move on any turn whose number is a multiple of 3 (turn 3, 6, 9, 12, …). On those turns every agent must remain stationary; on all other turns (1, 2, 4, 5, 7, 8, …) agents may move freely. The turn number is the global step counter of the environment, shared by every agent."
+    },
+    {
+      "norm_id": "norm_022",
+      "name": "movement_no_turn_mod3_1",
+      "description": "Agents may not move on any turn whose number leaves a remainder of 1 when divided by 3 (turn 1, 4, 7, 10, …). On those turns every agent must remain stationary; on all other turns (2, 3, 5, 6, 8, 9, …) agents may move freely. The turn number is the global step counter of the environment, shared by every agent."
+    },
+    {
+      "norm_id": "norm_023",
+      "name": "movement_no_turn_mod3_2",
+      "description": "Agents may not move on any turn whose number leaves a remainder of 2 when divided by 3 (turn 2, 5, 8, 11, …). On those turns every agent must remain stationary; on all other turns (1, 3, 4, 6, 7, 9, …) agents may move freely. The turn number is the global step counter of the environment, shared by every agent."
+    },
+    {
+      "norm_id": "norm_024",
+      "name": "movement_move1_wait1",
+      "description": "Agents must never move on two consecutive turns. After every turn on which an agent moves, it must stay stationary for the next turn before it may move again (move, wait, move, wait, …). This rhythm is counted on each agent's own moves, not on the global turn number: an agent may always wait longer than required, and only a turn on which the agent actually moved counts as a move."
+    },
+    {
+      "norm_id": "norm_025",
+      "name": "movement_move2_wait1",
+      "description": "Agents must never move on three consecutive turns. After moving on two turns in a row, an agent must stay stationary for the next turn before it may move again (move, move, wait, move, move, wait, …). This rhythm is counted on each agent's own moves, not on the global turn number: an agent may always wait longer than required, and only a turn on which the agent actually moved counts as a move."
+    },
+    {
+      "norm_id": "norm_026",
+      "name": "movement_move3_wait1",
+      "description": "Agents must never move on four consecutive turns. After moving on three turns in a row, an agent must stay stationary for the next turn before it may move again (move, move, move, wait, move, move, move, wait, …). This rhythm is counted on each agent's own moves, not on the global turn number: an agent may always wait longer than required, and only a turn on which the agent actually moved counts as a move."
+    },
+    {
+      "norm_id": "norm_027",
+      "name": "xcell_must_visit",
+      "description": "Each agent must visit at least one cell of zone Q before sitting."
+    },
+    {
+      "norm_id": "norm_028",
+      "name": "xcell_forbidden",
+      "description": "Agents cannot step on any cell of zone Q. Zone Q is entirely forbidden — no agent may occupy it under any circumstances."
+    },
+    {
+      "norm_id": "norm_029",
+      "name": "occupation_region_capacity_1",
+      "description": "Zone R (the yellow region) serves as the agents' goal position. At most 1 agent may occupy zone R at any time. Agents must wait just outside zone R until it is completely empty before entering and settling there."
+    },
+    {
+      "norm_id": "norm_030",
+      "name": "occupation_region_capacity_2",
+      "description": "Zone R (the yellow region) serves as the agents' goal position. At most 2 agents may occupy zone R at the same time. Agents must wait outside zone R if it already contains 2 agents, and may enter and settle once there is room."
+    },
+    {
+      "norm_id": "norm_031",
+      "name": "occupation_region_single_class_only",
+      "description": "Zone R (the yellow region) serves as the agents' goal position, but it may only be occupied by agents of a single class at any time. If zone R currently contains one or more agents of a given class (orange, green, or blue), only agents of that same class may enter; agents of any other class must wait outside until zone R is completely empty before entering. When two agents of different classes attempt to enter an empty zone R on the same turn, the tie is resolved by randomly picking one class to admit, and agents of the other class must wait."
+    },
+    {
+      "norm_id": "norm_032",
+      "name": "occupation_door_all_exit_A",
+      "description": "All agents must leave the environment through the door on the left side. Regardless of an agent's class or starting position, when exiting it must route to and pass through the left door. No agent may exit through any other door."
+    },
+    {
+      "norm_id": "norm_033",
+      "name": "occupation_door_A_forbidden",
+      "description": "No agent may exit through the door on the left side. The left door is forbidden as an exit for all agents; every agent must leave the environment through one of the other available doors (the bottom door or the right door) instead."
+    },
+    {
+      "norm_id": "norm_034",
+      "name": "occupation_door_class_specific",
+      "description": "Each agent may only exit through the door assigned to its class. Orange agents may only exit through the door on the left side, green agents may only exit through the door on the bottom, and blue agents may only exit through the door on the right side. An agent must not leave through a door assigned to a different class."
+    },
+    {
+      "norm_id": "norm_035",
+      "name": "occupation_door_all_exit_B",
+      "description": "All agents must leave the environment through the door on the bottom side. Regardless of an agent's class or starting position, when exiting it must route to and pass through the bottom door. No agent may exit through any other door."
+    },
+    {
+      "norm_id": "norm_036",
+      "name": "occupation_door_all_exit_C",
+      "description": "All agents must leave the environment through the door on the right side. Regardless of an agent's class or starting position, when exiting it must route to and pass through the right door. No agent may exit through any other door."
+    },
+    {
+      "norm_id": "norm_037",
+      "name": "occupation_door_B_forbidden",
+      "description": "No agent may exit through the door on the bottom side. The bottom door is forbidden as an exit for all agents; every agent must leave the environment through one of the other available doors (the left door or the right door) instead."
+    },
+    {
+      "norm_id": "norm_038",
+      "name": "occupation_door_C_forbidden",
+      "description": "No agent may exit through the door on the right side. The right door is forbidden as an exit for all agents; every agent must leave the environment through one of the other available doors (the left door or the bottom door) instead."
+    },
+    {
+      "norm_id": "norm_039",
+      "name": "occupation_seat_class_specific",
+      "description": "Each agent may only sit on a chair in the region of the room assigned to its class. The room is split into quadrants by the left door's row and the bottom door's column: the top-left region is every cell above the left door's row and at or left of the bottom door's column, the bottom-left region is the corner square enclosed by those two doors, and the bottom-right region is every cell at or below the left door's row and right of the bottom door's column. Orange agents may sit only on chairs in the top-left region, green agents only on chairs in the bottom-left region, and blue agents only on chairs in the bottom-right region. An agent must not occupy a chair outside the region assigned to its class."
+    },
+    {
+      "norm_id": "norm_040",
+      "name": "occupation_seat_bottom_left_only",
+      "description": "Agents may only sit in the bottom-left region of the room. That region is the corner square enclosed by the left door and the bottom door: every cell in the rows from the left door's row down to the bottom wall and in the columns from the left wall right to the bottom door's column. All agents, regardless of class, must choose a chair inside that bottom-left region as their goal seat and may not occupy any chair outside it."
+    },
+    {
+      "norm_id": "norm_041",
+      "name": "occupation_seat_no_bottom_left",
+      "description": "Agents may not sit in the bottom-left region of the room. That region is the corner square enclosed by the left door and the bottom door: every cell in the rows from the left door's row down to the bottom wall and in the columns from the left wall right to the bottom door's column. All agents, regardless of class, must choose a chair outside that bottom-left region as their goal seat and may not occupy any chair inside it."
+    },
+    {
+      "norm_id": "norm_042",
+      "name": "occupation_seat_in_order",
+      "description": "Agents must occupy the seats in a fixed order, filling them column by column: starting with the leftmost column, fill its chairs from top to bottom, then move to the next column to the right and fill it from top to bottom, and so on. The first seat is the topmost chair in the leftmost column; once a column is fully filled, the next seat is the topmost chair in the column immediately to its right. Seats are claimed sequentially: each arriving agent must take the seat that comes immediately after the last seat that was filled, never an earlier one. This ordering only ever moves forward — if an agent sitting in an earlier seat finishes and leaves, that now-empty seat is not reused; agents continue filling later seats in order. Only once the very last seat in the sequence has been filled does the order wrap back around and start over from the first seat."
+    },
+    {
+      "norm_id": "norm_043",
+      "name": "occupation_seat_top_left_only",
+      "description": "Agents may only sit in the top-left region of the room. That region is the corner square above the left door and left of the bottom door: every cell in the rows above the left door's row and in the columns from the left wall right to the bottom door's column. All agents, regardless of class, must choose a chair inside that top-left region as their goal seat and may not occupy any chair outside it."
+    },
+    {
+      "norm_id": "norm_044",
+      "name": "occupation_seat_bottom_right_only",
+      "description": "Agents may only sit in the bottom-right region of the room. That region is the corner square enclosed by the bottom door and the right wall: every cell in the rows from the left door's row down to the bottom wall and in the columns to the right of the bottom door's column. All agents, regardless of class, must choose a chair inside that bottom-right region as their goal seat and may not occupy any chair outside it."
+    },
+    {
+      "norm_id": "norm_045",
+      "name": "occupation_seat_no_bottom_right",
+      "description": "Agents may not sit in the bottom-right region of the room. That region is the corner square enclosed by the bottom door and the right wall: every cell in the rows from the left door's row down to the bottom wall and in the columns to the right of the bottom door's column. All agents, regardless of class, must choose a chair outside that bottom-right region as their goal seat and may not occupy any chair inside it."
+    },
+    {
+      "norm_id": "norm_046",
+      "name": "occupation_door_class_specific_BCA",
+      "description": "Each agent may only exit through the door assigned to its class. Orange agents may only exit through the door on the bottom, green agents may only exit through the door on the right side, and blue agents may only exit through the door on the left side. An agent must not leave through a door assigned to a different class."
+    },
+    {
+      "norm_id": "norm_047",
+      "name": "occupation_door_class_specific_CAB",
+      "description": "Each agent may only exit through the door assigned to its class. Orange agents may only exit through the door on the right side, green agents may only exit through the door on the left side, and blue agents may only exit through the door on the bottom. An agent must not leave through a door assigned to a different class."
+    },
+    {
+      "norm_id": "norm_048",
+      "name": "occupation_seat_class_specific_rot1",
+      "description": "Each agent may only sit on a chair in the region of the room assigned to its class. The room is split into quadrants by the left door's row and the bottom door's column: the top-left region is every cell above the left door's row and at or left of the bottom door's column, the bottom-left region is the corner square enclosed by those two doors, and the bottom-right region is every cell at or below the left door's row and right of the bottom door's column. Orange agents may sit only on chairs in the bottom-left region, green agents only on chairs in the bottom-right region, and blue agents only on chairs in the top-left region. An agent must not occupy a chair outside the region assigned to its class."
+    },
+    {
+      "norm_id": "norm_049",
+      "name": "occupation_seat_class_specific_rot2",
+      "description": "Each agent may only sit on a chair in the region of the room assigned to its class. The room is split into quadrants by the left door's row and the bottom door's column: the top-left region is every cell above the left door's row and at or left of the bottom door's column, the bottom-left region is the corner square enclosed by those two doors, and the bottom-right region is every cell at or below the left door's row and right of the bottom door's column. Orange agents may sit only on chairs in the bottom-right region, green agents only on chairs in the top-left region, and blue agents only on chairs in the bottom-left region. An agent must not occupy a chair outside the region assigned to its class."
+    },
+    {
+      "norm_id": "norm_050",
+      "name": "occupation_seat_in_order_right",
+      "description": "Agents must occupy the seats in a fixed order, filling them column by column starting from the right: starting with the rightmost column, fill its chairs from top to bottom, then move to the next column to the left and fill it from top to bottom, and so on. The first seat is the topmost chair in the rightmost column; once a column is fully filled, the next seat is the topmost chair in the column immediately to its left. Seats are claimed sequentially: each arriving agent must take the seat that comes immediately after the last seat that was filled, never an earlier one. This ordering only ever moves forward — if an agent sitting in an earlier seat finishes and leaves, that now-empty seat is not reused; agents continue filling later seats in order. Only once the very last seat in the sequence has been filled does the order wrap back around and start over from the first seat."
+    }
+  ]
+}
