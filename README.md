@@ -7,8 +7,7 @@
   Gillian K. Hadfield<sup>*1,2</sup> &nbsp;
   Tianmin Shu<sup>*1</sup>
   <br><br>
-  <sup>1</sup>Johns Hopkins University<br>
-  <sup>2</sup>Vector Institute for Artificial Intelligence
+  <sup>1</sup>Johns Hopkins University<br> <sup>2</sup>Vector Institute for Artificial Intelligence
   <br><br>
   <em>*Equal advising</em>
 </p>
