@@ -18,6 +18,14 @@
   <a href="https://binzeli.github.io/normgym-page/"><b>Project page</b></a> · Paper (coming soon)
 </p>
 
+NormGym is a benchmark for **learning hidden social norms from interaction**.
+An agent (an LLM/VLM, an RL policy, or a human) enters a grid world such as a
+cafe, a bank or a movie theater, where other customers follow a hidden norm:
+how to queue at the counter, where to sit, which door to use, how to move. The
+agent is never told the norm. It has to infer it by watching the others and
+from the penalties it receives, then complete its own goal without violating
+it, both in the world it learned in and in new layouts.
+
 ![A newcomer in the cafe learns the hidden norm from its own and its peers' violations](demos/teaser_trace.png)
 
 *A newcomer, Jude, enters a café whose community follows a norm Jude is never
@@ -32,14 +40,6 @@ its own violations, its peers' violations and others' compliant behavior, and
 updates its belief about the norm. It is then evaluated, with no further
 belief updates, on 3 full episodes in the seen layout and 3 in an unseen one.
 (b) Example environment layouts.*
-
-NormGym is a benchmark for **learning hidden social norms from interaction**.
-An agent (an LLM/VLM, an RL policy, or a human) enters a grid world such as a
-cafe, a bank or a movie theater, where other customers follow a hidden norm:
-how to queue at the counter, where to sit, which door to use, how to move. The
-agent is never told the norm. It has to infer it by watching the others and
-from the penalties it receives, then complete its own goal without violating
-it, both in the world it learned in and in new layouts.
 
 ## What is in the benchmark
 
