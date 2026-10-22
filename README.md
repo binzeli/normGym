@@ -4,12 +4,11 @@
   Binze Li<sup>1</sup> &nbsp;
   Zihuan Zhang<sup>1</sup> &nbsp;
   Seokhyun Baek<sup>1</sup> &nbsp;
-  Gillian K. Hadfield<sup>*1,2,3</sup> &nbsp;
+  Gillian K. Hadfield<sup>*1,2</sup> &nbsp;
   Tianmin Shu<sup>*1</sup>
   <br><br>
-  <sup>1</sup>Department of Computer Science, Johns Hopkins University<br>
-  <sup>2</sup>School of Government and Policy, Johns Hopkins University<br>
-  <sup>3</sup>Vector Institute for Artificial Intelligence
+  <sup>1</sup>Johns Hopkins University<br>
+  <sup>2</sup>Vector Institute for Artificial Intelligence
   <br><br>
   <em>*Equal advising</em>
 </p>
