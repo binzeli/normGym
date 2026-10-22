@@ -66,11 +66,6 @@ experiment/human/data/
 experiment/human_judge/data/*
 !experiment/human_judge/data/.gitignore
 
-# Showcase demo videos and frames (large, regenerable); only the README
-# teaser figures are tracked.
-demos/*
-!demos/teaser_trace.png
-!demos/teaser_protocol.png
 
 # Teaser figure: kept locally only
 teaser_figure/

@@ -26,14 +26,14 @@ agent is never told the norm. It has to infer it by watching the others and
 from the penalties it receives, then complete its own goal without violating
 it, both in the world it learned in and in new layouts.
 
-![A newcomer in the cafe learns the hidden norm from its own and its peers' violations](demos/teaser_trace.png)
+![A newcomer in the cafe learns the hidden norm from its own and its peers' violations](figures/teaser_trace.png)
 
 *A newcomer, Jude, enters a café whose community follows a norm Jude is never
 told: sit only in the bottom-right seating area. Jude's own violations and a
 peer's violation gradually point it to the right area, and by the end of
 interaction it states the norm it has learned.*
 
-![Evaluation protocol: interactive learning, then evaluation on seen and unseen layouts](demos/teaser_protocol.png)
+![Evaluation protocol: interactive learning, then evaluation on seen and unseen layouts](figures/teaser_protocol.png)
 
 *(a) Evaluation protocol. During interactive learning the agent acts, observes
 its own violations, its peers' violations and others' compliant behavior, and
