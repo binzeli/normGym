@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <a href="https://binzeli.github.io/normgym-page/"><b>Project page</b></a> · Paper (coming soon)
+  <a href="https://normgym.github.io/normgym-page/"><b>Project page</b></a> · Paper (coming soon)
 </p>
 
 NormGym is a benchmark for **learning hidden social norms from interaction**.
