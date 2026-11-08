@@ -65,6 +65,8 @@ experiment/human/data/
 # LLM-judge human study: participant ratings (Prolific-id-named folders) — never commit.
 experiment/human_judge/data/*
 !experiment/human_judge/data/.gitignore
+# Local copy of the LLM-judge human study (participant-id-named data folders) — never commit.
+human_judge_study/
 
 
 # Teaser figure: kept locally only
@@ -81,3 +83,5 @@ teaser_figure/
 slurm_script/
 # Paper plotting scripts and figures — kept local only, not part of the public release.
 experiment/plot/
+# ICLR rebuttal experiment scripts — local only
+scripts/rebuttal/

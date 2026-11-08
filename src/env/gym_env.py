@@ -473,15 +473,18 @@ class NormEnv(gym.Env):
                 for a in self.agents
             )
             for agent in self.agents:
-                if (
-                    not agent.is_oracle
-                    and agent.active
-                    and not agent.done
-                    and (agent.agent_id in violated_agent_ids or has_no_norm_system_agent)
-                ):
+                if agent.is_oracle or not agent.active or agent.done:
+                    continue
+                if isinstance(agent, LLMAgent):
+                    # Every LLM subject is told about every violation this step,
+                    # its own and other agents', so others' sanctions reach it in
+                    # text and memory as well as through the red marks on the
+                    # image. The agent itself separates its own violation from
+                    # others' by checking its id against the list.
                     agent.pending_violation_feedback = self.current_step
-                    if isinstance(agent, LLMAgent):
-                        agent.pending_violation_agent_ids = sorted(violated_agent_ids)
+                    agent.pending_violation_agent_ids = sorted(violated_agent_ids)
+                elif agent.agent_id in violated_agent_ids or has_no_norm_system_agent:
+                    agent.pending_violation_feedback = self.current_step
             self._pending_norm_violations = []
         
         for agent in self.agents:

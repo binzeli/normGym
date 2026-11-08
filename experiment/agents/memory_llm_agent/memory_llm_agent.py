@@ -11,11 +11,12 @@ empty:
 
 1. the last ``recent_steps`` steps (default 10), each with the reasoning that
    went with it;
-2. the ``max_violation_steps`` (default 5) most recent steps it was penalised on
-   from *before* that window, rendered the same way. The interactive stage gives
-   every subject incarnation the same memory file, so these reach back across
-   incarnations: a penalty earned under an earlier agent id stays in the prompt
-   for the rest of the stage;
+2. the ``max_violation_steps`` (default 5) most recent steps from *before* that
+   window on which any agent (it or another agent) had a violation mark,
+   rendered the same way. The interactive stage gives every subject incarnation
+   the same memory file, so these reach back across incarnations: a penalty
+   earned under an earlier agent id stays in the prompt for the rest of the
+   stage;
 3. its latest norm hypothesis, once, at the end.
 
 Everything else — action parsing, the auto-wait shortcut, the settled-on-target
@@ -114,8 +115,8 @@ class MemoryLLMAgent(LLMAgent):
                 lines.extend(self._render_records(recent))
             if violations:
                 lines.append(
-                    "Earlier steps where you were penalised for violating the "
-                    "social norm (most recent last):"
+                    "Earlier steps where an agent (you or another agent) "
+                    "violated the social norm (most recent last):"
                 )
                 lines.extend(self._render_records(violations))
 

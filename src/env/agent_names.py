@@ -33,3 +33,11 @@ def agent_display_name(agent_id: str) -> str:
             if 0 <= idx < len(AGENT_NAMES):
                 return AGENT_NAMES[idx]
     return agent_id
+
+
+def join_names(names) -> str:
+    """Join display names for prose: "Ash", "Ash and Bob", "Ash, Bob and Cal"."""
+    names = [n for n in names if n]
+    if len(names) <= 1:
+        return "".join(names)
+    return ", ".join(names[:-1]) + " and " + names[-1]

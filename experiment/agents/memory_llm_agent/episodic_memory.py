@@ -13,6 +13,8 @@ back into its prompt.
 from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
 
+from src.env.agent_names import join_names
+
 
 Position = Optional[Tuple[int, int]]
 
@@ -38,6 +40,10 @@ class StepRecord:
     belief: str = ""
     confidence: Optional[float] = None
     violated: bool = False
+    # Other agents marked for a violation this step (ids, and the display names
+    # they had on the map at that step; the names list may be empty).
+    other_violators: List[str] = field(default_factory=list)
+    other_violator_names: List[str] = field(default_factory=list)
     goal_index: Optional[int] = None
     target: Position = None
 
@@ -58,8 +64,7 @@ class StepRecord:
                 if isinstance(other_id, str)
             }
 
-        # ``norm_violation`` is true whenever *some* agent was marked that step;
-        # only the subject's own penalties are a learning signal for it.
+        # ``norm_violation`` is true whenever *some* agent was marked that step.
         # ``self_violation`` records that ownership as the agent that lived the
         # step saw it, which is what keeps a penalty visible after the subject is
         # replaced: the interactive stage gives every subject incarnation the same
@@ -75,6 +80,27 @@ class StepRecord:
             violator_ids = entry.get("norm_violation_agents")
             if violated and isinstance(violator_ids, list):
                 violated = agent_id in violator_ids
+
+        # Other agents' violations, as stamped by the agent that lived the step.
+        # Older files lack the field; fall back to the marked agents minus the
+        # agent that lived the step (``queried_agent_id``).
+        other_ids = entry.get("other_violation_agents")
+        if not isinstance(other_ids, list):
+            marked = entry.get("norm_violation_agents")
+            lived_by = entry.get("queried_agent_id", agent_id)
+            other_ids = (
+                [a for a in marked if a != lived_by]
+                if isinstance(marked, list) and entry.get("norm_violation")
+                else []
+            )
+        other_ids = [a for a in other_ids if isinstance(a, str)]
+        other_names = entry.get("other_violation_names")
+        if not (
+            isinstance(other_names, list)
+            and len(other_names) == len(other_ids)
+            and all(isinstance(n, str) and n for n in other_names)
+        ):
+            other_names = []
 
         confidence = entry.get("confidence")
         if not isinstance(confidence, (int, float)) or isinstance(confidence, bool):
@@ -93,6 +119,8 @@ class StepRecord:
             belief=str(entry.get("belief", "") or ""),
             confidence=float(confidence) if confidence is not None else None,
             violated=violated,
+            other_violators=other_ids,
+            other_violator_names=list(other_names),
             goal_index=goal_index,
             target=_as_position(entry.get("target")),
         )
@@ -112,19 +140,21 @@ def step_records(memory: Optional[Dict[str, Any]], agent_id: str) -> List[StepRe
 def split_memory(
     records: Sequence[StepRecord], recent_steps: int, max_violation_steps: int
 ) -> Tuple[List[StepRecord], List[StepRecord]]:
-    """Split the episode into (recent window, earlier penalised steps).
+    """Split the episode into (recent window, earlier violation steps).
 
-    The recent window is the last ``recent_steps`` steps. The penalised steps
-    are the ``max_violation_steps`` most recent penalties from *before* that
-    window: a penalty inside the window is already shown there in full, so
-    including it again would spend the budget printing the same step twice.
+    The recent window is the last ``recent_steps`` steps. The violation steps
+    are the ``max_violation_steps`` most recent steps from *before* that window
+    on which any agent (the subject or another agent) had a violation mark: a
+    violation inside the window is already shown there in full, so including it
+    again would spend the budget printing the same step twice.
     """
     recent = list(records[-recent_steps:]) if recent_steps else []
     recent_steps_seen = {record.step for record in recent}
 
     violations = [
         record for record in records
-        if record.violated and record.step not in recent_steps_seen
+        if (record.violated or record.other_violators)
+        and record.step not in recent_steps_seen
     ]
     if max_violation_steps > 0:
         violations = violations[-max_violation_steps:]
@@ -190,6 +220,12 @@ def render_record(
     )
     if record.violated:
         header += " I had a violation mark this step."
+    if record.other_violators:
+        names = record.other_violator_names or [
+            name_of(other_id) for other_id in record.other_violators
+        ]
+        verb = "had a violation mark" if len(names) == 1 else "had violation marks"
+        header += f" {join_names(names)} {verb} this step."
 
     lines = [header]
     if record.reasoning:

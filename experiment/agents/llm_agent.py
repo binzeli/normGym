@@ -17,7 +17,7 @@ import json
 from typing import Any, Dict, List, Optional, Protocol
 from src.agents.base_agent import Agent, Action
 from experiment.utils.client import InsufficientCreditsError
-from src.env.agent_names import agent_display_name
+from src.env.agent_names import agent_display_name, join_names as _join_names
 from src.norms.lining import is_line_norm
 from src.norms.navigation import is_navigation_norm
 from src.norms.occupation import (
@@ -418,6 +418,21 @@ class LLMAgent(Agent):
         }
         if violation_agent_ids:
             entry["norm_violation_agents"] = violation_agent_ids
+            # Other agents' violations, stamped by the agent that lived the step
+            # for the same reason as ``self_violation``: a later incarnation of
+            # the subject has a different id and would otherwise count an earlier
+            # incarnation's own penalty as another agent's.
+            other_violators = [
+                a for a in violation_agent_ids
+                if isinstance(a, str) and a != self.agent_id
+            ]
+            if other_violators:
+                entry["other_violation_agents"] = other_violators
+                # Display names as rendered at this step, so memory refers to
+                # agents by the name the image showed then.
+                entry["other_violation_names"] = [
+                    self._resolve_name(a) for a in other_violators
+                ]
         if self._tracks_belief():
             entry["belief"] = belief
             entry["confidence"] = confidence
@@ -634,30 +649,52 @@ class LLMAgent(Agent):
     # ------------------------------------------------------------------
 
     def _current_violation_note(self) -> str:
-        """A second-person statement describing this agent's own norm-violation
-        marker visible in the current step (i.e. a violation committed by the
-        previous step's action). Empty string when the agent is not being
-        penalised this step.
+        """Text describing the norm-violation markers visible in the current step
+        (violations committed by the previous step's actions): first this agent's
+        own, then other agents', by the names the image shows. Empty string when
+        no agent is marked this step.
 
-        Other agents' violation markers are intentionally left out of the text:
-        they are already shown on the image as red cross marks, and the prompt
-        explains what that marker means, so the model should infer them visually
-        rather than be told in words."""
+        Own and others' violations are stated in the same way so that both kinds
+        of sanction evidence are equally salient in the prompt; the red cross
+        marks on the image carry the same information visually."""
         if self.pending_violation_feedback != self.current_step:
             return ""
         violator_ids = [a for a in self.pending_violation_agent_ids if isinstance(a, str)]
-        if self.agent_id not in violator_ids:
-            return ""
 
+        notes = []
+        if self.agent_id in violator_ids:
+            notes.append(
+                "Your action in the previous step violated the social norm, so you "
+                "now have a norm-violation marker and are being penalised in this step."
+            )
+        others = [self._resolve_name(a) for a in violator_ids if a != self.agent_id]
+        if others:
+            names = _join_names(others)
+            if len(others) == 1:
+                notes.append(
+                    f"In the previous step, {names} violated the social norm, so "
+                    f"{names} now has a norm-violation marker and is being "
+                    f"penalised in this step."
+                )
+            else:
+                notes.append(
+                    f"In the previous step, {names} violated the social norm, so "
+                    f"they now have norm-violation markers and are being "
+                    f"penalised in this step."
+                )
+        return "\n".join(notes)
+
+    def _has_visible_violation(self) -> bool:
+        """Whether any agent (this one or another) shows a norm-violation marker
+        in the current step."""
         return (
-            "Your action in the previous step violated the social norm, so you "
-            "now have a norm-violation marker and are being penalised in this step."
+            self.pending_violation_feedback == self.current_step
+            and bool(self.pending_violation_agent_ids)
         )
 
     def _has_own_visible_violation(self) -> bool:
         """Whether the current step shows a norm-violation marker for this agent's
-        own action from the previous step. When true the agent should be prompted
-        (rather than auto-waiting) so it can react to the penalty it just received."""
+        own action from the previous step."""
         return (
             self.pending_violation_feedback == self.current_step
             and self.agent_id in self.pending_violation_agent_ids
@@ -689,6 +726,8 @@ class LLMAgent(Agent):
         self._capture_agent_names(world)
         # Agent is sitting at a target position accumulating wait time — no need
         # to prompt; it will advance automatically once the wait is complete.
+        # Steps where any agent (this one or another) shows a violation marker
+        # are still prompted, so the agent sees that sanction evidence.
         alone_at_current_position = not any(
             agent_id != self.agent_id and pos == self.current_position
             for agent_id, pos in all_current_positions.items()
@@ -696,7 +735,7 @@ class LLMAgent(Agent):
         if (self.target_wait_time > 0
                 and self._is_settled(world, all_current_positions)
                 and alone_at_current_position
-                and not self._has_own_visible_violation()):
+                and not self._has_visible_violation()):
             print(f"  [auto-wait] LLMAgent {self.agent_id} settled at {self.current_position}, wait {self.target_wait_time}/3")
             previous_memory = self._load_memory(output_dir)
             self._append_memory_step(

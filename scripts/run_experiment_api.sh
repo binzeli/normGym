@@ -45,6 +45,10 @@ WORLD_TYPE="${WORLD_TYPE:-cafe}"
 # already holds a metrics_summary_<norm>.json (i.e. run + eval both finished),
 # so rerunning the script only runs what is still missing. Set 0 to rerun all.
 SKIP_EXISTING="${SKIP_EXISTING:-1}"
+# Results folder under experiment/ (run_experiment.py --output_dir). Default
+# "results" keeps the usual experiment/results/<agent>/<model>/... layout; set
+# e.g. OUTPUT_DIR=results_other_violations to keep a batch of runs separate.
+OUTPUT_DIR="${OUTPUT_DIR:-results}"
 
 # API keys (OPENROUTER_API_KEY, etc.) are loaded from .env by the Python
 # entrypoint via force_load_repo_env(), which parses key=value lines safely.
@@ -66,7 +70,7 @@ if [ "$SKIP_EXISTING" = "1" ]; then
     for MODEL in $MODELS; do
         done_norms=(); todo_norms=()
         for NORM_TYPE in $NORM_TYPES; do
-            RESULT_DIR="experiment/results/${AGENT_TYPE}/$(model_dir "$MODEL")/${WORLD_TYPE}/${NORM_TYPE}"
+            RESULT_DIR="experiment/${OUTPUT_DIR}/${AGENT_TYPE}/$(model_dir "$MODEL")/${WORLD_TYPE}/${NORM_TYPE}"
             if [ -f "$RESULT_DIR/metrics_summary_${NORM_TYPE}.json" ]; then
                 done_norms+=("$NORM_TYPE")
             else
@@ -89,7 +93,7 @@ for MODEL in $MODELS; do
 
     # Skip norm/model combos that already finished (run + eval), so the script
     # can be rerun to fill in only the missing norms.
-    RESULT_DIR="experiment/results/${AGENT_TYPE}/$(model_dir "$MODEL")/${WORLD_TYPE}/${NORM_TYPE}"
+    RESULT_DIR="experiment/${OUTPUT_DIR}/${AGENT_TYPE}/$(model_dir "$MODEL")/${WORLD_TYPE}/${NORM_TYPE}"
     if [ "$SKIP_EXISTING" = "1" ] && [ -f "$RESULT_DIR/metrics_summary_${NORM_TYPE}.json" ]; then
         echo "[SKIP] $RESULT_DIR already has metrics_summary_${NORM_TYPE}.json"
         continue
@@ -125,7 +129,8 @@ for MODEL in $MODELS; do
         --norm_type "$NORM_TYPE" \
         --agent_type "$AGENT_TYPE" \
         --provider "$PROVIDER" \
-        --model "$MODEL" | tee "$RUN_LOG"; then
+        --model "$MODEL" \
+        --output_dir "$OUTPUT_DIR" | tee "$RUN_LOG"; then
         # --max_steps 50 \
         # --test_max_steps 3
         rc=${PIPESTATUS[0]}

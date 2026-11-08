@@ -12,9 +12,10 @@ from dataclasses import dataclass, fields
 class MemoryConfig:
     # The most recent steps, shown with the reasoning that went with each.
     recent_steps: int = 10
-    # Penalised steps from before that window, most recent first. Penalties are
-    # the only ground-truth signal the agent gets, so they are pinned into the
-    # prompt instead of ageing out of the recent window.
+    # Steps from before that window on which any agent (the subject or another
+    # agent) had a violation mark, most recent first. Sanctions are the only
+    # ground-truth signal the agent gets, so they are pinned into the prompt
+    # instead of ageing out of the recent window.
     max_violation_steps: int = 5
     # Character cap on the per-step reasoning replayed in the prompt. 0 (the
     # default) keeps it in full; set a positive value to trim it if a long

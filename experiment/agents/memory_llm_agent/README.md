@@ -16,11 +16,15 @@ memory file format. A `memory_llm` run is therefore directly comparable with an
 ## What goes into the prompt
 
 1. **Recent steps** — the last `recent_steps` (default 10), each with the
-   reasoning and the norm hypothesis the agent held at that step.
-2. **Earlier penalised steps** — the `max_violation_steps` (default 5) most
-   recent steps it was penalised on from *before* that window, rendered the same
-   way. Penalties inside the window are excluded: they are already shown in
-   full there, so the budget is never spent printing a step twice.
+   reasoning and the norm hypothesis the agent held at that step. Each step
+   notes whether the agent itself had a violation mark ("I had a violation mark
+   this step.") and which other agents did ("Ash had a violation mark this
+   step.").
+2. **Earlier violation steps** — the `max_violation_steps` (default 5) most
+   recent steps from *before* that window on which any agent (the subject or
+   another agent) had a violation mark, rendered the same way. Violations inside
+   the window are excluded: they are already shown in full there, so the budget
+   is never spent printing a step twice.
 3. Its latest belief, once, at the end. In a test run the belief carried over
    from the interactive stage (`reference_memory_path`) is printed above the
    memory section; the plain agent ignores that file.
@@ -53,7 +57,7 @@ python experiment/run/run_experiment.py --norm_type <norm> --agent_type memory_l
 | Variable | Default | Meaning |
 | --- | --- | --- |
 | `NORMGYM_MEMORY_RECENT_STEPS` | 10 | Most recent steps shown |
-| `NORMGYM_MEMORY_MAX_VIOLATION_STEPS` | 5 | Earlier penalised steps shown |
+| `NORMGYM_MEMORY_MAX_VIOLATION_STEPS` | 5 | Earlier violation steps (own or others') shown |
 | `NORMGYM_MEMORY_MAX_REASONING_CHARS` | 0 (no truncation) | Character cap per replayed reasoning line |
 
 In code:
@@ -70,7 +74,9 @@ The same `simulation_log/<run>.json` the plain agent writes, so
 `append_final_hypothesis`, `eval.py`'s belief judge and
 `mark_memory_norm_violation` all read it unchanged. Each step entry gains two
 additive fields for analysis: `goal_index` (which goal the agent was pursuing)
-and `target` (that goal's target cell).
+and `target` (that goal's target cell). Every agent's memory also records, on
+steps where other agents were marked, `other_violation_agents` (their ids) and
+`other_violation_names` (their display names at that step).
 
 ## Files
 
