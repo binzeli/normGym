@@ -635,7 +635,6 @@ def get_queue(candidate_cells: List[Tuple[int, int]],
                     break  # True end of queue
             else:
                 break  # Stop at the first empty position
-    print("Detected queue:", queue)
     return queue
 
 
@@ -831,8 +830,6 @@ def check_straight_line(to_pos: Tuple[int, int],
                         agent_id: str,
                         target_position: Tuple[int, int],
                         agent_classes) -> bool:
-    queue_cells = generate_queue_straight(target_position, world)
-    print("straight queue cells:", queue_cells)
     return check_queue_line(to_pos, all_current_positions, world, agent_id, target_position, agent_classes, norm='straight_line')
 
 
@@ -843,8 +840,6 @@ def check_line_norm(to_pos: Tuple[int, int],
                     target_position: Tuple[int, int],
                     agent_classes,
                     norm: str) -> bool:
-    queue_cells = generate_queue_line(target_position, world, norm)
-    print(f"{norm} queue cells:", queue_cells)
     return check_queue_line(
         to_pos,
         all_current_positions,

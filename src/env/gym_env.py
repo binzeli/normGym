@@ -844,9 +844,7 @@ class NormEnv(gym.Env):
             )
             if len(self.world.previous_queue) == 1 and self.world.previous_queue[0] == None:
                 self.world.previous_queue = {} 
-            print("the world queue:", self.world.previous_queue)
             
-        print("all agent's actions:", agent_actions)
         return agent_actions
     
     def _collect_push_pairs(self, step_data: Dict[str, Any]) -> None:
@@ -959,7 +957,6 @@ class NormEnv(gym.Env):
                 self._can_move_to_position,
             )
 
-        print("all agent's next positions:", {a.agent_id: a.next_position for a in self.agents})
         collision_handler.resolve_swap_pairs(self.agents, self.world, step_data, self._is_queried_agent)
         self._collect_push_pairs(step_data)
         return step_data

@@ -193,33 +193,13 @@ class OracleAgent(Agent):
             )
             world.current_queue = current_queue
 
-            current_index = next(
-                (idx for idx, aid in current_queue.items() if aid == self.agent_id), None
-            )
-
-            print(f"Agent {self.agent_id} - Current queue: {current_queue}")
-            print(f"Agent {self.agent_id} - Queue index: {current_index}")
-
             queue_target = current_target
             if (self.current_position != queue_cells[1] and self.agent_id not in world.current_queue.values()):
                 next_index = max(current_queue.keys()) + 1 if len(current_queue) > 1 else 1
                 if len(current_queue) > 1 and next_index < len(queue_cells):
                     queue_target = queue_cells[next_index]
-                    print(
-                        f"Agent {self.agent_id} not in queue, targeting position after"
-                        f" last agent: {queue_target}"
-                    )
                 else:
                     queue_target = queue_cells[1]
-                    print(
-                        f"Agent {self.agent_id} not in queue, using sub-target:"
-                        f" {queue_target} (queue_cells[1])"
-                    )
-            else:
-                print(
-                    f"Agent {self.agent_id} in queue at index {current_index},"
-                    f" targeting: {queue_target}"
-                )
 
             action = predictive_planner(
                 self.agent_id, self.current_position,
@@ -241,9 +221,6 @@ class OracleAgent(Agent):
                 all_target_positions=all_target_positions,
                 all_target_indices=all_target_indices,
             )
-
-        print("target position:", current_target)
-        print("action:", action)
 
         # Spacing and movement norms share the livelock: WAIT never violates
         # either, so pausing is always a compliant way to desynchronise.

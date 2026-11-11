@@ -70,7 +70,6 @@ def get_blocked_queue_cells(
     world,
     agent_id: str,
     agent_current_position: Tuple[int, int],
-    debug_print: bool = True,
     on_first_target: bool = True,
 ) -> Set[Tuple[int, int]]:
     """
@@ -103,15 +102,6 @@ def get_blocked_queue_cells(
                     if (0 <= opposite_position[0] < world.height
                             and 0 <= opposite_position[1] < world.width):
                         blocked_queue_cells.add(opposite_position)
-                    if debug_print:
-                        print(
-                            f"Agent {agent_id} not in queue, blocking target position: "
-                            f"{target_position} and opposite side: {opposite_position}"
-                        )
-                elif debug_print:
-                    print(
-                        f"Agent {agent_id} not in queue, blocking target position: {target_position}"
-                    )
         else:
             # Agent has finished the first target — block all queue cells so they
             # cannot step back into the queue at any point during departure.
@@ -120,11 +110,6 @@ def get_blocked_queue_cells(
                 counter_pos = agent_obj.target_positions[0]
                 queue_cells = generate_queue_line(counter_pos, world, norm)
                 blocked_queue_cells.update(queue_cells)
-                if debug_print:
-                    print(
-                        f"Agent {agent_id} has finished first target {counter_pos},"
-                        f" blocking all queue cells: {set(queue_cells)}"
-                    )
 
     return blocked_queue_cells
 
@@ -176,7 +161,6 @@ def compute_a_star_path(
     all_current_positions: Dict[str, Tuple[int, int]],
     norm: Optional[str],
     target_position: Optional[Tuple[int, int]],
-    debug_print: bool = True,
     violation_log: Optional[Dict[str, List[str]]] = None,
     on_first_target: bool = True,
 ) -> Tuple[List[Tuple[int, int]], Optional[Action]]:
@@ -185,10 +169,6 @@ def compute_a_star_path(
 
     Uses get_movement_cost() for action costs and world.transition() to determine
     actual next positions.  Includes WAIT to allow the agent to pause.
-
-    Args:
-        debug_print: If True, print detailed action costs and norm violations.
-                     Set to False when predicting other agents.
 
     Returns:
         Tuple of (path, first_action):
@@ -205,7 +185,7 @@ def compute_a_star_path(
     movement_actions = [Action.MOVE_UP, Action.MOVE_DOWN, Action.MOVE_LEFT, Action.MOVE_RIGHT]
 
     blocked_queue_cells = get_blocked_queue_cells(
-        norm, target_position, world, agent_id, current_position, debug_print,
+        norm, target_position, world, agent_id, current_position,
         on_first_target=on_first_target,
     )
 
@@ -246,19 +226,9 @@ def compute_a_star_path(
                     continue
 
                 if next_pos in blocked_queue_cells:
-                    if debug_print:
-                        print(
-                            f"Skipping action {action} from {current_pos} -> {next_pos}"
-                            " - blocked queue cell"
-                        )
                     continue
 
                 if next_pos in blocked_cells:
-                    if debug_print:
-                        print(
-                            f"Skipping action {action} from {current_pos} -> {next_pos}"
-                            f" - cell forbidden by {active_norm} for the whole route"
-                        )
                     continue
 
             if not is_immediate_next:
@@ -268,8 +238,6 @@ def compute_a_star_path(
                 if check_norm_violation(active_norm, current_pos, next_pos, target_position, all_current_positions, world, agent_id):
                     if violation_log is not None:
                         violation_log.setdefault(agent_id, []).append(str(action))
-                    if debug_print:
-                        print(f"Skipping action {action} from {current_pos} -> {next_pos} due to norm violation")
                     continue
 
             move_cost = get_movement_cost(
@@ -280,15 +248,7 @@ def compute_a_star_path(
             )
 
             if move_cost == float('inf'):
-                if debug_print:
-                    print(f"Skipping action {action} from {current_pos} -> {next_pos} due to infinite cost.")
                 continue
-
-            if debug_print:
-                print(
-                    f"Agent {agent_id} action {action} from {current_pos} -> {next_pos},"
-                    f" cost: {move_cost}"
-                )
 
             tentative_g = g_scores[current_pos] + move_cost
 
@@ -346,23 +306,15 @@ def predictive_planner(
     updated_positions = all_current_positions.copy()
     collision_actions = collision_actions or {}
 
-    print("planning for agent:", agent_id)
-    print(f"Predicting agents in order: {[aid for aid, _ in other_agents_sorted]}")
-    print(f"Collision actions: {collision_actions}")
-
     # If the planning agent is already in the queue, skip predicting all other agents.
-    if is_line_norm(norm) and agent_id in world.current_queue.values():
-        print(f"Agent {agent_id} is in the queue; skipping all other-agent prediction.")
-    else:
+    if not (is_line_norm(norm) and agent_id in world.current_queue.values()):
         for other_id, position in other_agents_sorted:
             if other_id in collision_actions:
                 collision_action = collision_actions[other_id]
-                print(f"Agent {other_id} has collision action: {collision_action}")
 
                 next_pos = world.transition(position, collision_action)
                 if next_pos:
                     updated_positions[other_id] = next_pos
-                    print(f"Updated position for agent {other_id} from collision: {next_pos}")
             else:
                 # Predict this agent's target using its own target position
                 other_true_target = (all_target_positions or {}).get(other_id, target_position)
@@ -399,14 +351,11 @@ def predictive_planner(
                     updated_positions,
                     norm,          # assume same norm for prediction
                     other_true_target,
-                    debug_print=False,
                     on_first_target=other_on_first_target,
                 )
 
                 if predicted_path:
                     updated_positions[other_id] = predicted_path[0]
-
-    print("mixed positions for planning:", updated_positions)
 
     path, action = compute_a_star_path(
         current_position,
@@ -416,10 +365,8 @@ def predictive_planner(
         updated_positions,
         norm,
         target_position,
-        debug_print=True,
         violation_log=violation_log,
         on_first_target=on_first_target,
     )
-    print(f"=== Final path for agent {agent_id}: {path}, action: {action} ===")
 
     return action

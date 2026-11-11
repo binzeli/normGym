@@ -139,11 +139,11 @@ def _label_state(agent, world, all_current_positions) -> Dict[str, Any]:
     real_astar = _planner_mod.compute_a_star_path
 
     def recording_astar(current_position, revised_target, world_, agent_id_,
-                        positions_, norm_, target_position_, debug_print=True,
+                        positions_, norm_, target_position_,
                         violation_log=None, on_first_target=True):
         path, action = real_astar(
             current_position, revised_target, world_, agent_id_, positions_,
-            norm_, target_position_, debug_print=False,
+            norm_, target_position_,
             violation_log=violation_log, on_first_target=on_first_target)
         if agent_id_ == agent_id:
             captured.update(revised_target=tuple(revised_target),
@@ -184,7 +184,7 @@ def _label_state(agent, world, all_current_positions) -> Dict[str, Any]:
                 path2, _ = real_astar(
                     nxt, captured['revised_target'], world, agent_id,
                     {**predicted, agent_id: nxt}, norm,
-                    captured['target_position'], debug_print=False,
+                    captured['target_position'],
                     on_first_target=captured['on_first_target'])
             if nxt == captured['revised_target'] or (
                     path2 and len(path2) == base_len - 1):
