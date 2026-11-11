@@ -62,9 +62,8 @@ demonstration*/
 experiment/plot/trained/results/
 # Participant data from the human study (participant-id-named folders) — never commit.
 experiment/human/data/
-# LLM-judge human study: participant ratings (Prolific-id-named folders) — never commit.
-experiment/human_judge/data/*
-!experiment/human_judge/data/.gitignore
+# LLM-judge human study (app, study design, participant data) — kept local only.
+experiment/human_judge/
 # Local copy of the LLM-judge human study (participant-id-named data folders) — never commit.
 human_judge_study/
 

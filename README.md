@@ -191,8 +191,7 @@ normGym/
 │   ├── utils/               # LLM clients, prompts, norm judge
 │   ├── train/               # VLM fine-tuning: SFT and RLOO v1–v4 (see its README)
 │   ├── distractor/          # Distractor-agent experiment
-│   ├── human/               # Human-baseline study: web app, deployment, analysis
-│   └── human_judge/         # Human validation of the LLM belief judge
+│   └── human/               # Human-baseline study: web app, deployment, analysis
 ├── runner/                  # Simulation runner and browser free-play server
 ├── scripts/                 # Launch scripts (see above)
 │   └── finetune/            # Fine-tuning launchers: SFT and RLOO v1–v4
