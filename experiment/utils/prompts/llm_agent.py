@@ -44,11 +44,11 @@ ReAct PROCEDURE (output your reasoning step by step)
 1) Observe:
    - Identify your current grid position.
    - Identify your current target cell {TARGET_POSITION} and any blocked cells/obstacles.
-   - Identify nearby agents, their intended next moves, and their class.
+   - Identify nearby agents, their intended next moves, and their group.
 2) Reason:
    - Propose some candidate actions that move you toward {TARGET_POSITION} efficiently.
    - For each candidate, assess:
-     - Collision risk next step (including push outcomes based on class), taking into account other agents' arrows.
+     - Collision risk next step (including push outcomes based on group), taking into account other agents' actions.
      - Whether it violates any social norms.
 3) Act:
    - State your chosen action.
